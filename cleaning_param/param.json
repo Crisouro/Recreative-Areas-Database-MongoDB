@@ -7,32 +7,37 @@
      }
     },
     {"dataset": "encuestas",
-     "c_id": [],
+     "c_id": ["ID"],
      "c_enum": [],
      "c_format": {}
     },
     {"dataset": "incidencias",
-     "c_id": [],
-     "c_enum": [],
+     "c_id": ["ID"],
+     "c_enum": ["TIPO_INCIDENCIA", "ESTADO"],
+     "c_format": {}
+    },
+    {"dataset": "incidentes",
+     "c_id": ["ID"],
+     "c_enum": ["TIPO_INCIDENTE", "GRAVEDAD"],
      "c_format": {}
     },
     {"dataset": "mantenimientos",
-     "c_id": [],
-     "c_enum": [],
+     "c_id": ["ID"],
+     "c_enum": ["TIPO_INTERVENCION", "ESTADO_PREVIO", "ESTADO_POSTERIOR"],
      "c_format": {}
     },
     {"dataset": "usuarios",
-     "c_id": [],
+     "c_id": ["NIF"],
      "c_enum": [],
      "c_format": {}
     },
     {"dataset": "juegos",
-     "c_id": [],
+     "c_id": ["ID"],
      "c_enum": ["ESTADO"],
      "c_format": {}
     },
     {"dataset": "meteo",
-     "c_id": [],
+     "c_id": ["FECHA"],
      "c_enum": [],
      "c_format": {}
     }
