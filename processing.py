@@ -77,29 +77,28 @@ def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
     return to_process
 
 
-def limpieza_area(df):
-
+def cleanse_area(df):
     pass
 
-def limpieza_encuestas(df):
+def cleanse_encuestas(df):
     pass
 
-def limpieza_incidencias(df):
+def cleanse_incidencias(df):
     pass
 
-def limpieza_incidentes(df):
+def cleanse_incidentes(df):
     pass
 
-def limpieza_mantenimiento(df):
+def cleanse_mantenimiento(df):
     pass
 
-def limpieza_usuarios(df):
+def cleanse_usuarios(df):
     pass
 
-def limpieza_juegos(df):
+def cleanse_juegos(df):
     pass
 
-def limpieza_meteo(df):
+def cleanse_meteo(df):
     pass
 
 if __name__ == "__main__":
@@ -122,7 +121,7 @@ if __name__ == "__main__":
     print("Columns: ", all_df["area"].columns)
     print(all_df["area"].head())
 
-    #ANÁLISIS GENERAL:
+    #GENERAL ANALYSIS:
     i = 0
     for key in all_df.keys():
         print(gcl_data[i])
@@ -130,11 +129,11 @@ if __name__ == "__main__":
         i += 1
 
 
-    #limpieza_area(df_area)
-    #limpieza_encuestas(df_encuestas)
-    #limpieza_incidencias(df_incidencias)
-    #limpieza_incidentes(df_incidentes)
-    #limpieza_mantenimiento(df_mantenimientos)
-    #limpieza_usuarios(df_usuarios)
-    #limpieza_juegos(df_juegos)
-    #limpieza_meteo(df_meteo)
+    #cleanse_area(df_area)
+    #cleanse_encuestas(df_encuestas)
+    #cleanse_incidencias(df_incidencias)
+    #cleanse_incidentes(df_incidentes)
+    #cleanse_mantenimiento(df_mantenimientos)
+    #cleanse_usuarios(df_usuarios)
+    #cleanse_juegos(df_juegos)
+    #cleanse_meteo(df_meteo)
