@@ -1,0 +1,39 @@
+[
+    {"dataset": "area",
+     "c_id": ["ID"],
+     "c_enum": ["ESTADO"],
+     "c_format": {
+        "ID": "^(0|\\d+)$"
+     }
+    },
+    {"dataset": "encuestas",
+     "c_id": [],
+     "c_enum": [],
+     "c_format": {}
+    },
+    {"dataset": "incidencias",
+     "c_id": [],
+     "c_enum": [],
+     "c_format": {}
+    },
+    {"dataset": "mantenimientos",
+     "c_id": [],
+     "c_enum": [],
+     "c_format": {}
+    },
+    {"dataset": "usuarios",
+     "c_id": [],
+     "c_enum": [],
+     "c_format": {}
+    },
+    {"dataset": "juegos",
+     "c_id": [],
+     "c_enum": ["ESTADO"],
+     "c_format": {}
+    },
+    {"dataset": "meteo",
+     "c_id": [],
+     "c_enum": [],
+     "c_format": {}
+    }
+]

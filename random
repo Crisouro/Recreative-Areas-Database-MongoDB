@@ -1,0 +1,27 @@
+#TODO: DELETE
+def type_analysis(df, c_type: dict)->list:
+    """Function that verifies that all data are the same type and coincides with the expected type for each column.
+       Null type data are not considered for the case."""
+    
+    all_ok = True
+    for c in df.columns:
+        unique = df[c].dropna().apply(lambda x: type(x).__name__).unique()
+        if (len(unique) != 1):
+            print(c, ": ",unique )
+            all_ok = False
+        else:
+            if (unique[0] != c_type[c]):
+                print(c, "type ", unique[0], "but it should be ", c_type[c])
+                all_ok = False
+
+    if (all_ok):
+        print("All ok.")
+
+#ANÁLISIS GENERAL
+    c_type = {"ID": int, "DESC_CLASIFICACION": str, "COD_BARRIO": int, "BARRIO": str, "COD_DISTRITO": str, "ESTADO": str, 
+    "COORD_GIS_X": float, "COORD_GIS_Y": float, "LATITUD": float, "LONGITUD": float, "TIPO_VIA": str, "NOM_VIA": str, 
+    "NUM_VIA": str, "COD_POSTAL": str, "FECHA_INSTALACION": datetime}
+    c_id = ["ID"]
+    c_enum = ["ESTADO"]
+
+    general_analysis(df, c_type, c_id, c_enum)
