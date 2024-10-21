@@ -109,19 +109,20 @@ if __name__ == "__main__":
 
     all_df = {}
 
-    all_df["area"] = pd.read_csv(os.path.join("datasets", "Areas.csv"), sep=',')
-    #all_df["encuestas"] = pd.read_csv(os.path.join("datasets", "Dirty_EncuestaSatisfaccion.csv"), sep=',', index_col=0)
-    #all_df["incidencias"] = pd.read_csv(os.path.join("datasets", "Dirty_Incidencias.csv"), sep=',', index_col=0)
-    #all_df["incidentes"] = pd.read_csv(os.path.join("datasets", "Dirty_IncidenteSeguridad.csv"), sep=',', index_col=0)
-    #all_df["mantenimientos"] = pd.read_csv(os.path.join("datasets", "Dirty_Mantenimientos.csv"), sep=',', index_col=0)
-    #all_df["usuarios"] = pd.read_csv(os.path.join("datasets", "Dirty_Usuarios.csv"), sep=',', index_col=0)
-    #all_df["juegos"] = pd.read_csv(os.path.join("datasets", "Juegos.csv"), sep=',', index_col=0)
-    #all_df["meteo"] = pd.read_csv(os.path.join("datasets", "Meteo.csv"), sep=',', index_col=0)
+    #all_df["area"] = pd.read_csv(os.path.join("datasets", "Areas.csv"), sep=',')
+    #all_df["encuestas"] = pd.read_csv(os.path.join("datasets", "Dirty_EncuestaSatisfaccion.csv"), sep=',')
+    #all_df["incidencias"] = pd.read_csv(os.path.join("datasets", "Dirty_Incidencias.csv"), sep=',')
+    #all_df["incidentes"] = pd.read_csv(os.path.join("datasets", "Dirty_IncidenteSeguridad.csv"), sep=',')
+    #all_df["mantenimientos"] = pd.read_csv(os.path.join("datasets", "Dirty_Mantenimientos.csv"), sep=',')
+    #all_df["usuarios"] = pd.read_csv(os.path.join("datasets", "Dirty_Usuarios.csv"), sep=',')
+    #all_df["juegos"] = pd.read_csv(os.path.join("datasets", "Juegos.csv"), sep=',')
+    #all_df["meteo"] = pd.read_csv(os.path.join("datasets", "Meteo.csv"), sep=',')
     
     print("Columns: ", all_df["area"].columns)
     print(all_df["area"].head())
 
     #GENERAL ANALYSIS:
+    #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
     i = 0
     for key in all_df.keys():
         print(gcl_data[i])

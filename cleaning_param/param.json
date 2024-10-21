@@ -9,32 +9,44 @@
     {"dataset": "encuestas",
      "c_id": ["ID"],
      "c_enum": [],
-     "c_format": {}
+     "c_format": {
+       "ID": "^(ES_\\d{4,6})$"
+     }
     },
     {"dataset": "incidencias",
      "c_id": ["ID"],
      "c_enum": ["TIPO_INCIDENCIA", "ESTADO"],
-     "c_format": {}
+     "c_format": {
+       "ID": "^INC_\\d{4,6}(_DUP)?$"
+     }
     },
     {"dataset": "incidentes",
      "c_id": ["ID"],
      "c_enum": ["TIPO_INCIDENTE", "GRAVEDAD"],
-     "c_format": {}
+     "c_format": {
+       "ID": "^(IS_\\d{4,6})$"
+     }
     },
     {"dataset": "mantenimientos",
      "c_id": ["ID"],
-     "c_enum": ["TIPO_INTERVENCION", "ESTADO_PREVIO", "ESTADO_POSTERIOR"],
-     "c_format": {}
+     "c_enum": ["TipoIntervencion", "EstadoPrevio", "EstadoPosterior"],
+     "c_format": {
+       "ID": "^MA_\\d{4,6}(_DUP)?$"
+     }
     },
     {"dataset": "usuarios",
      "c_id": ["NIF"],
      "c_enum": [],
-     "c_format": {}
+     "c_format": {
+       "NIF": "^(U\\d{5,6})$"
+     }
     },
     {"dataset": "juegos",
      "c_id": ["ID"],
      "c_enum": ["ESTADO"],
-     "c_format": {}
+     "c_format": {
+       "ID": "^(JG_)\\d{4,7}$"
+     }
     },
     {"dataset": "meteo",
      "c_id": ["FECHA"],
