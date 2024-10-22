@@ -2,7 +2,7 @@ import os
 import json
 import datetime 
 import pandas as pd
-
+from cleaningFunctions import clean_null
 
 def null_values(df)-> list:
     """Function that detects columns with null values in the dataset."""
@@ -77,8 +77,13 @@ def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
     return to_process
 
 
-def cleanse_area(df):
-    pass
+def cleanse_area(df, parser_area):
+    #PASO 1: tratamiento de valores nulos
+    clean_null(df, results['n_columns'], parser_area['null_values'])
+
+    df.to_csv(os.path.join("datasets", "Areas_cleaned.csv"), header=True, sep=',')
+
+
 
 def cleanse_encuestas(df):
     pass
@@ -107,9 +112,13 @@ if __name__ == "__main__":
     with open (os.path.join("cleaning_param", "param.json")) as js:
         gcl_data = json.load(js)
 
+    # PARSER FOR CLEANING
+    with open(os.path.join("cleaning_param", "parser.json")) as js:
+        parser = json.load(js)
+
     all_df = {}
 
-    #all_df["area"] = pd.read_csv(os.path.join("datasets", "Areas.csv"), sep=',')
+    all_df["area"] = pd.read_csv(os.path.join("datasets", "Areas.csv"), sep=',')
     #all_df["encuestas"] = pd.read_csv(os.path.join("datasets", "Dirty_EncuestaSatisfaccion.csv"), sep=',')
     #all_df["incidencias"] = pd.read_csv(os.path.join("datasets", "Dirty_Incidencias.csv"), sep=',')
     #all_df["incidentes"] = pd.read_csv(os.path.join("datasets", "Dirty_IncidenteSeguridad.csv"), sep=',')
@@ -126,11 +135,15 @@ if __name__ == "__main__":
     i = 0
     for key in all_df.keys():
         print(gcl_data[i])
-        general_analysis(all_df[key], gcl_data[i]["c_id"], gcl_data[i]["c_format"], gcl_data[i]["c_enum"])
+        results= general_analysis(all_df[key], gcl_data[i]["c_id"], gcl_data[i]["c_format"], gcl_data[i]["c_enum"])
         i += 1
 
 
-    #cleanse_area(df_area)
+
+
+
+
+    cleanse_area(all_df['area'], parser[0])
     #cleanse_encuestas(df_encuestas)
     #cleanse_incidencias(df_incidencias)
     #cleanse_incidentes(df_incidentes)
