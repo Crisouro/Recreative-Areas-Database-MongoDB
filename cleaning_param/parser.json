@@ -13,7 +13,9 @@
          "TOTAL_ELEM": "NumElemDesconocido",
          "CAPACIDAD_MAX": "CapMaxDesconocida"
       },
-      "unique id": {},
+      "unique_id": {
+        "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
+      },
       "expected format": {},
       "enumeration display": {}
     }
