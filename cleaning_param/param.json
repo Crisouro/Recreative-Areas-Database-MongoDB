@@ -41,7 +41,7 @@
     },
     {"dataset": "mantenimientos",
      "c_id": ["ID"],
-     "c_enum": ["TipoIntervencion", "EstadoPrevio", "EstadoPosterior"],
+     "c_enum": ["TIPO_INTERVENCION", "ESTADO_PREVIO", "ESTADO_POSTERIOR"],
      "c_format": {
        "ID": {
           "pattern": "^MA_\\d{4,6}(_DUP)?$",

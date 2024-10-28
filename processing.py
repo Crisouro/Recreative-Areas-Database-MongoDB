@@ -55,7 +55,7 @@ if __name__ == "__main__":
     #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',')
     #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',')
     #all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
-    #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',')
+    #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
     
     #print("Columns: ", all_df["area"].columns)
     #print(all_df["area"].head())
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"], gcl_data[i]["c_format"], gcl_data[i]["c_enum"])
         i += 1
 
-    cleanse_area(all_df['area'], results["area"], parser[0], gcl_data[0]["c_format"])
+    #cleanse_area(all_df['area'], results["area"], parser[0], gcl_data[0]["c_format"])
     #cleanse_encuestas(df_encuestas)
     #cleanse_incidencias(df_incidencias)
     #cleanse_incidentes(df_incidentes)
