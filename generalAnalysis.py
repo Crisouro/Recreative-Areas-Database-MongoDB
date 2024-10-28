@@ -59,25 +59,6 @@ def unique_id(df, c_id: list)-> dict:
     unique["same"] = same
 
     return unique
-
-def exp_format(df, cd_format):
-    """Function that checks whether the column format coincides with the expected one"""
-
-    expected = {}
-    
-    print("\n[GENERAL ANALYSIS][EXPECTED_FORMAT]")
-    for c in cd_format.keys():
-        regex = cd_format[c]["pattern"]
-
-        expected[c] = df[c].str.match(regex).all()
-        if (not expected[c]):
-            print(c, " values doesn't match expected format ", cd_format[c]["pattern"])
-            cf.clean_format(c, df, regex, cd_format[c]["add"])
-            print(c, " values format has been cleaned ", cd_format[c]["pattern"])
-        else:
-            print(c, " values match expected format ", cd_format[c]["pattern"])
-    
-    return expected
         
 
 def enum_display(df, c_enum: list)-> dict:
@@ -96,7 +77,7 @@ def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
     to_process = {}
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
-    to_process["exp_format"] = exp_format(df, cd_format)    #2) The column data follows the expected format.
+    #to_process["exp_format"] = exp_format(df, cd_format)    #2) The column data follows the expected format.
     to_process["unique_id"] = unique_id(df, c_id)           #3) A Unique data column has duplicates?
     to_process["enum_values"] = enum_display(df, c_enum)    #4) Values in enumerated type columns.
 

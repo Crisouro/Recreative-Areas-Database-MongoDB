@@ -48,14 +48,14 @@ if __name__ == "__main__":
 
     all_df = {}
 
-    all_df["area"] = pd.read_csv(os.path.join("datasets", "Areas.csv"), sep=',')
-    #all_df["encuestas"] = pd.read_csv(os.path.join("datasets", "Dirty_EncuestaSatisfaccion.csv"), sep=',')
-    #all_df["incidencias"] = pd.read_csv(os.path.join("datasets", "Dirty_Incidencias.csv"), sep=',')
-    #all_df["incidentes"] = pd.read_csv(os.path.join("datasets", "Dirty_IncidenteSeguridad.csv"), sep=',')
-    #all_df["mantenimientos"] = pd.read_csv(os.path.join("datasets", "Dirty_Mantenimientos.csv"), sep=',')
-    #all_df["usuarios"] = pd.read_csv(os.path.join("datasets", "Dirty_Usuarios.csv"), sep=',')
-    #all_df["juegos"] = pd.read_csv(os.path.join("datasets", "Juegos.csv"), sep=',')
-    #all_df["meteo"] = pd.read_csv(os.path.join("datasets", "Meteo.csv"), sep=',')
+    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    #all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
+    #all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
+    #all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
+    #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',')
+    #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',')
+    #all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
+    #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',')
     
     #print("Columns: ", all_df["area"].columns)
     #print(all_df["area"].head())
@@ -68,7 +68,6 @@ if __name__ == "__main__":
         print(gcl_data[i])
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"], gcl_data[i]["c_format"], gcl_data[i]["c_enum"])
         i += 1
-
 
     cleanse_area(all_df['area'], results["area"], parser[0], gcl_data[0]["c_format"])
     #cleanse_encuestas(df_encuestas)

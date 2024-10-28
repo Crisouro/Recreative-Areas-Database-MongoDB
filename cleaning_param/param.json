@@ -5,7 +5,7 @@
      "c_format": {
         "ID": {
           "pattern": "^AR_\\d+$",
-          "add": "AR"
+          "add": ""
         }
      }
     },
@@ -15,7 +15,7 @@
      "c_format": {
        "ID": {
           "pattern": "^(ES_\\d{4,6})$",
-          "add": "AR"
+          "add": ""
         }
      }
     },
@@ -25,7 +25,7 @@
      "c_format": {
        "ID": {
           "pattern": "^INC_\\d{4,6}(_DUP)?$",
-          "add": "INC"
+          "add": ""
         }
      }
     },
@@ -35,7 +35,7 @@
      "c_format": {
        "ID": {
           "pattern": "^(IS_\\d{4,6})$",
-          "add": "INC"
+          "add": ""
         }
      }
     },
@@ -45,7 +45,7 @@
      "c_format": {
        "ID": {
           "pattern": "^MA_\\d{4,6}(_DUP)?$",
-          "add": "MA"
+          "add": ""
         }
      }
     },
@@ -55,7 +55,7 @@
      "c_format": {
       "NIF": {
           "pattern": "^(U\\d{5,6})$",
-          "add": "U"
+          "add": ""
         }
      }
     },
@@ -65,7 +65,7 @@
      "c_format": {
        "ID": {
           "pattern": "^(JG_)\\d{4,7}$",
-          "add": "MA"
+          "add": ""
         }
      }
     },
