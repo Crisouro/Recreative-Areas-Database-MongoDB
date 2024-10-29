@@ -9,37 +9,15 @@ def clean_null(df, null_columns: list, parser: dict):
     for column in null_columns:
         fill_value = parser[column]
         df.fillna({column: fill_value}, inplace=True)
-
-
-        
-def clean_format(c: str, df, pattern: str, add = ""):
-    """Algorithm for cleansing the format of a column."""
-
-    regex = re.compile(pattern)
     
-    def format_id(x):
-        if pd.notnull(x):
-            if regex.match(x):
-                return x 
-            else:
-                numbers = ''.join(re.findall(r"\d+", x))
-
-                if numbers:
-                    return f"AR_{numbers}"
-                
-        return x
-
-    if (c in ["NIF", "ID"]):
-        df[c] = df[c].apply(lambda x: format_id(x))
-    
-
-def clean_duplicates(dataset, df, unique: dict, exp_format: dict, parser: dict):
+def clean_duplicates(dataset, df, unique: dict, parser: dict):
     """Algorithm for cleansing duplicate ID."""
     
     print(f"['{dataset}'][CLEAN_DUPLICATES]")
 
     unique_conditions = {}
     unique_ids = list(unique.keys())
+    print("UNIQUE KEYS:", unique_ids)
     unique_ids.remove("same")
 
     for id in unique_ids:
@@ -49,16 +27,29 @@ def clean_duplicates(dataset, df, unique: dict, exp_format: dict, parser: dict):
         #All duplicates don't share same data.
         if (not unique["same"]["same"]):
             
-            unique_dup = 0
             for i, dup in unique["same"]["col_diff"][c_id].items():
+                print(dup)
                 #Each duplicate value has different values in between regarding relevant columns that make an entry unique.
-                if all(item in dup["all"] for item in unique_conditions[id]):
-                    unique_dup += 1
-            
-            if (unique_dup == len(unique["same"]["col_diff"][id].keys())):
-                #APPLYING STRATEGY FOR GIVING UNIQUE VALUE.
-                str.renaming_id()
+                
+                #Trabajar esta condición
+                unique_dup = False
+                if any(item in dup["all"] for item in unique_conditions[id]):
+                    unique_dup = True
+                #>>>>
+
+                if (unique_dup):
+                    #APPLYING STRATEGY FOR GIVING UNIQUE VALUE.
+                    str.renaming_id(df, c_id, i)
+                else:
+                    if (len(dup["some"]) == 0):
+                        #DUPLICATES ARE ALL THE SAME -> DELETE.
+                        print(i)
+                        str.delete_duplicates(df, c_id, i)
             
         #All duplicates share same data.
         else:
+            for i, dup in unique["same"]["col_diff"][c_id].items():
+                print(i)
+                str.delete_duplicates(df, c_id, i)
+
             pass #Delete duplicates.
