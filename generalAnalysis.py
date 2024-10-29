@@ -77,7 +77,7 @@ def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
     to_process = {}
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
-    #to_process["exp_format"] = exp_format(df, cd_format)    #2) The column data follows the expected format.
+    #to_process["exp_format"] = exp_format(df, cd_format)   #2) The column data follows the expected format.
     to_process["unique_id"] = unique_id(df, c_id)           #3) A Unique data column has duplicates?
     to_process["enum_values"] = enum_display(df, c_enum)    #4) Values in enumerated type columns.
 

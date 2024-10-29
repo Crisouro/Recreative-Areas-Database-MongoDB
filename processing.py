@@ -9,7 +9,7 @@ from generalAnalysis import general_analysis
 def cleanse_area(df, to_process: dict, parser: dict, format)-> None:
     """Functions responsible for the cleaning of Area dataset."""
     cf.clean_duplicates("area", df, to_process["unique_id"], parser["unique_id"])
-    #cf.clean_null(df, results['n_columns'], parser_area['null_values'])
+    #cf.clean_null(df, to_process['n_columns'], parser['null_values'])
 
     df.to_csv(os.path.join("datasets", "Areas_cleaned.csv"), header=True, sep=',', index=False)
 
@@ -72,9 +72,10 @@ if __name__ == "__main__":
     for key in all_df.keys():
         print(gcl_data[i])
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"], gcl_data[i]["c_format"], gcl_data[i]["c_enum"])
+
         i += 1
 
-    #cleanse_area(all_df['area'], results["area"], parser[0], gcl_data[0]["c_format"])
+    cleanse_area(all_df['area'], results["area"], parser[0], gcl_data[0]["c_format"])
     #cleanse_encuestas(df_encuestas)
     #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2], gcl_data[2]["c_format"])
     #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3], gcl_data[3]["c_format"])

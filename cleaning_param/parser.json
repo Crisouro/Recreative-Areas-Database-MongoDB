@@ -1,17 +1,16 @@
 [
     {"dataset": "area",
      "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
+       "COD_DISTRITO": {"area": ["DISTRITO"], "juego": ["DISTRITO"]},
+       "DISTRITO": ["COD_DISTRITO"],
+       "TIPO_VIA": [],
+        "NOM_VIA": [],
+        "NUM_VIA": [],
+        "COD_POSTAL": [],
+        "DIRECCION_AUX": [],
+         "NDP": [],
+         "FECHA_INSTALACION":[],
+         "CODIGO_INTERNO": []
       },
       "unique_id": {
         "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
@@ -139,7 +138,5 @@
      "expected format": {},
      "enumeration display": {}
    }
-
-
 ]
 
