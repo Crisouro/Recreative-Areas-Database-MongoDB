@@ -53,8 +53,8 @@ def unique_id(df, c_id: list)-> dict:
                     else:
                         same["col_diff"][c][d]["some"].append(col)
             
-            print(f"All values are different in the following columns: '{same["col_diff"][c][d]["all"]}'")
-            print(f"Some values are the same in the following columns: columns: '{same["col_diff"][c][d]["some"]}'")
+            #print("All values are different in the following columns: '{same["col_diff"][c][d]["all"]}'")
+            #print(f"Some values are the same in the following columns: columns: '{same["col_diff"][c][d]["some"]}'")
 
     unique["same"] = same
 
@@ -78,8 +78,8 @@ def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
     #to_process["exp_format"] = exp_format(df, cd_format)    #2) The column data follows the expected format.
-    to_process["unique_id"] = unique_id(df, c_id)           #3) A Unique data column has duplicates?
-    to_process["enum_values"] = enum_display(df, c_enum)    #4) Values in enumerated type columns.
+    #to_process["unique_id"] = unique_id(df, c_id)           #3) A Unique data column has duplicates?
+    #to_process["enum_values"] = enum_display(df, c_enum)    #4) Values in enumerated type columns.
 
     #type_analysis(df, c_type)                              #2) All columns' data are the expected type?
 
