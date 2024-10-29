@@ -72,15 +72,11 @@ def enum_display(df, c_enum: list)-> dict:
 
     return enum_values
 
-def general_analysis(df, c_id: list, cd_format: dict, c_enum: list)-> dict:
+def general_analysis(df, c_id: list)-> dict:
     """Function that executes a general analysis with common anomalies to all dataframes."""
     to_process = {}
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
-    #to_process["exp_format"] = exp_format(df, cd_format)   #2) The column data follows the expected format.
-    to_process["unique_id"] = unique_id(df, c_id)           #3) A Unique data column has duplicates?
-    to_process["enum_values"] = enum_display(df, c_enum)    #4) Values in enumerated type columns.
-
-    #type_analysis(df, c_type)                              #2) All columns' data are the expected type?
+    to_process["unique_id"] = unique_id(df, c_id)           #2) A Unique data column has duplicates?
 
     return to_process
