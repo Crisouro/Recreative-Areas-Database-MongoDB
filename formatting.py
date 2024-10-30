@@ -68,3 +68,29 @@ def typo_format(df, c_format):
                     return x
                 
                 df[c] = df[c].apply(lambda x: aplicar_regex(x, regex))
+
+
+def phone_unifier(phone_str):
+    """
+    Converts a phone number to the format +34 xxx xx xx xx. If the country code is missing, it adds +34.
+    Assumes the input is a string representing a phone number.
+    """
+    # Definir patrón para coincidir con un número de 9 dígitos, con o sin prefijo (+34)
+    pattern = re.compile(r"(\+34\s?)?(\d{3})[\s\-]?(\d{2})[\s\-]?(\d{2})[\s\-]?(\d{2})")
+
+    # Intentar coincidir el número con el patrón
+    match = pattern.fullmatch(phone_str)
+
+    if match:
+        # Formatear el número al formato estándar +34 xxx xx xx xx
+        return f"+34 {match.group(2)} {match.group(3)} {match.group(4)} {match.group(5)}"
+    else:
+        # Si no coincide, puede significar un número en formato incorrecto
+        raise ValueError("El formato de número de teléfono no es reconocido")
+
+def remove_dup_prefix(email):
+    # Si el email empieza con 'dup_', quitar esa parte
+    if isinstance(email, str) and email.startswith("dup_"):
+        return email[4:]  # Quita los primeros 4 caracteres ("dup_")
+    return email
+

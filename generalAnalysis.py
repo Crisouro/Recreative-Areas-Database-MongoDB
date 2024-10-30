@@ -53,8 +53,8 @@ def unique_id(df, c_id: list)-> dict:
                     else:
                         same["col_diff"][c][d]["some"].append(col)
             
-            print(f"All values are different in the following columns: '{same["col_diff"][c][d]["all"]}'")
-            print(f"Some values are the same in the following columns: columns: '{same["col_diff"][c][d]["some"]}'")
+            print(f"All values are different in the following columns: '{same['col_diff'][c][d]['all']}'")
+            print(f"Some values are the same in the following columns: columns: '{same['col_diff'][c][d]['some']}'")
 
     unique["same"] = same
 

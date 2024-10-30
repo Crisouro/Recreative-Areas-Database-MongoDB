@@ -1,5 +1,6 @@
 import os
 import json
+
 import datetime 
 import pandas as pd
 import cleaningFunctions as cf
@@ -37,7 +38,7 @@ def cleanse_mantenimiento(df, to_process: dict, parser: dict):
     df.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_usuarios(df, to_process: dict, parser: dict):
-    #cf.clean_duplicates("usuarios", df, to_process["unique_id"], parser["unique_id"])
+    cf.clean_duplicates("usuarios", df, to_process["unique_id"], parser["unique_id"])
     df.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_juegos(df, to_process: dict, parser: dict):
@@ -59,12 +60,12 @@ if __name__ == "__main__":
 
     all_df = {}
 
-    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    #all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
     #all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
     #all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
     #all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
     #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') #TODO: Revisar ID
-    #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
+    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
     #all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
     #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
     
@@ -74,7 +75,7 @@ if __name__ == "__main__":
     #FORMATTING:
 
     #Formatting Normalization + Typographic corrections
-    i = 0
+    i = 5
     for key in all_df.keys():
         fr.general_format(all_df[key])
         fr.typo_format(all_df[key], gcl_data[i]["c_format"])
@@ -83,18 +84,18 @@ if __name__ == "__main__":
 
     #GENERAL ANALYSIS:
     #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
-    i = 0
+    i = 5
     results = {}
     for key in all_df.keys():
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"])
 
         i += 1
 
-    cleanse_area(all_df['area'], results["area"], parser[0])
+    #cleanse_area(all_df['area'], results["area"], parser[0])
     #cleanse_encuestas(all_df['encuestas'], results["encuestas"])
     #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2])
     #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3])
     #cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4])
-    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[5])
+    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[0])
     #cleanse_juegos(all_df['juegos'], results["juegos"], parser[6])
     #cleanse_meteo(df_meteo)
