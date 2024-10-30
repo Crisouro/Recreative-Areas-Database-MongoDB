@@ -23,7 +23,7 @@ def date_unifier(str):
     output_pattern = "%d-%m-%Y"
     
     if (str == "fecha_incorrecta"):
-        return str
+        return None
 
     possible_patterns = [
         "%d/%m/%Y",   # D/M/Y
