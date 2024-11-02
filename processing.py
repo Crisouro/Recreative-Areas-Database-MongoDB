@@ -5,6 +5,7 @@ import datetime
 import pandas as pd
 import cleaningFunctions as cf
 from generalAnalysis import general_analysis
+from formatting import format_phone_number, remove_dup_prefix
 import formatting as fr
 
 
@@ -61,13 +62,13 @@ if __name__ == "__main__":
 
     all_df = {}
 
-    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    #all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
     #all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
     #all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
     #all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
     #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') #TODO: Revisar ID
-    #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
-    all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
+    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
+    #all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
     #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
     
     #print("Columns: ", all_df["area"].columns)
@@ -76,12 +77,20 @@ if __name__ == "__main__":
     #FORMATTING:
 
     #Formatting Normalization + Typographic corrections
-    """i = 5
+    i = 5
     for key in all_df.keys():
         fr.general_format(all_df[key])
         fr.typo_format(all_df[key], gcl_data[i]["c_format"])
 
-        i += 1"""
+        i += 1
+
+    ## Formatting pra la tabla de usuarios NIF + email + telefono has to be unique
+    if "TELEFONO" in all_df["usuarios"].columns:
+        all_df["usuarios"]["TELEFONO"] = all_df["usuarios"]["TELEFONO"].apply(format_phone_number)
+    if "EMAIL" in all_df["usuarios"].columns:
+        all_df["usuarios"]["EMAIL"] = all_df["usuarios"]["EMAIL"].apply(remove_dup_prefix)
+        all_df["usuarios"] = all_df["usuarios"].drop_duplicates(subset=['NIF', 'TELEFONO', 'EMAIL'], keep='first')
+        del all_df["usuarios"]["Email"]
 
     #GENERAL ANALYSIS:
     #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
@@ -92,11 +101,13 @@ if __name__ == "__main__":
 
         i += 1
 
-    cleanse_area(all_df['area'], results["area"], parser[0], all_df)
+    print("############")
+    print(all_df["usuarios"].tail())
+    #cleanse_area(all_df['area'], results["area"], parser[0], all_df)
     #cleanse_encuestas(all_df['encuestas'], results["encuestas"])
     #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2])
     #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3])
     #cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4])
-    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[0])
+    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[7])
     #cleanse_juegos(all_df['juegos'], results["juegos"], parser[6])
     #cleanse_meteo(df_meteo)

@@ -137,7 +137,17 @@
      },
      "expected format": {},
      "enumeration display": {}
-   }
+   },
+  {"dataset": "usuarios",
+    "null_values": {
+
+        "EMAIL": "CorreoDesconocido"
+     },
+     "unique_id": {
+       "ID": ["NIF"]
+     },
+     "expected format": {},
+     "enumeration display": {}}
 
 ]
 
