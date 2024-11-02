@@ -77,6 +77,6 @@ def general_analysis(df, c_id: list)-> dict:
     to_process = {}
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
-    to_process["unique_id"] = unique_id(df, c_id)           #2) A Unique data column has duplicates?
+    #to_process["unique_id"] = unique_id(df, c_id)           #2) A Unique data column has duplicates?
 
     return to_process

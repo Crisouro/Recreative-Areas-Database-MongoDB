@@ -8,12 +8,13 @@ from generalAnalysis import general_analysis
 import formatting as fr
 
 
-def cleanse_area(df, to_process: dict, parser: dict)-> None:
+def cleanse_area(df_area, to_process: dict, parser: dict, all_df)-> None:
     """Functions responsible for the cleaning of Area dataset."""
-    cf.clean_duplicates("area", df, to_process["unique_id"], parser["unique_id"])
-    #cf.clean_null(df, to_process['n_columns'], parser['null_values'])
+    #cf.clean_duplicates("area", df_area, to_process["unique_id"], parser["unique_id"])
+    print("Cleaning Area dataset...")
+    cf.clean_null(df_area, to_process['n_columns'], parser['null_values'], all_df)
 
-    df.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
+    #df_area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
 
 
 
@@ -60,13 +61,13 @@ if __name__ == "__main__":
 
     all_df = {}
 
-    #all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
     #all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
     #all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
     #all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
     #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') #TODO: Revisar ID
-    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
-    #all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
+    #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
+    all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
     #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
     
     #print("Columns: ", all_df["area"].columns)
@@ -75,12 +76,12 @@ if __name__ == "__main__":
     #FORMATTING:
 
     #Formatting Normalization + Typographic corrections
-    i = 5
+    """i = 5
     for key in all_df.keys():
         fr.general_format(all_df[key])
         fr.typo_format(all_df[key], gcl_data[i]["c_format"])
 
-        i += 1
+        i += 1"""
 
     #GENERAL ANALYSIS:
     #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
@@ -91,7 +92,7 @@ if __name__ == "__main__":
 
         i += 1
 
-    #cleanse_area(all_df['area'], results["area"], parser[0])
+    cleanse_area(all_df['area'], results["area"], parser[0], all_df)
     #cleanse_encuestas(all_df['encuestas'], results["encuestas"])
     #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2])
     #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3])

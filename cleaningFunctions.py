@@ -4,13 +4,13 @@ import pandas as pd
 import strategy as str
 import re
 
-def clean_null(df, null_columns: list, parser: dict):
+def clean_null(df_data, null_columns: list, parser: dict, full_df):
     """Algorithm for cleaning the null values of a column"""
+    result = {}
     for column in null_columns:
-
-        if column== "COD_DISTRITO":
-            str.null_codDistrito_asign(df[column], parser["COD_DISTRITO"])
-        elif column== "DISTRITO":
+        if column == "COD_DISTRITO":
+            result['COD_DISTRITO']= str.null_codDistrito_assign(df_data, parser["COD_DISTRITO"]["area"], parser["COD_DISTRITO"], full_df)
+        elif column == "DISTRITO":
             print("detecting distrito")
             #null_distrito_asign()
     

@@ -22,11 +22,26 @@ def delete_duplicates(df, id, value):
 
     df.drop(to_remove[1:], inplace=True)
 
-"""def null_codDistrito_asign(data, parser):
-    Function that implementents the asignation of null values for COD_DISTRITO
-    j=0
-    for item in data:
-        if item is null:
+def null_codDistrito_assign(data, support_col, parser, df):
+    """Function that implements the assignation of null values for COD_DISTRITO"""
+    null_elems = data['COD_DISTRITO'].isnull().values.tolist()
+    for i in range(len(null_elems)):
+        if null_elems[i]:
+            #print("null item in position ", i)
+            #print("SUPPORT DATA IS", data[support_col].iat[i,0])
+            search_key = data[support_col].iat[i,0]
+            assigned = False
             for domain in parser:
-                if not df[domain][j].isnull():
-        j += 1"""
+                if not assigned:
+                    for elem in parser[domain]:
+                        candidates = df[domain].query(f" DISTRITO == '{search_key}' and COD_DISTRITO.notnull()")
+                        if not candidates.empty:
+                            #print("Candidates: ", candidates['COD_DISTRITO'])
+                            data['COD_DISTRITO'][i] = candidates['COD_DISTRITO'].iloc[0]
+                            assigned = True
+            if not assigned:
+                data['COD_DISTRITO'][i] = str(data['ID'][i]) + "-COD_DISTRITO-desconocido"
+
+            print("NEW COD_DISTRITO IS", data['COD_DISTRITO'][i], "in position", i+1, "assigned is", assigned)
+    return data['COD_DISTRITO']
+
