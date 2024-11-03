@@ -9,10 +9,11 @@ def clean_null(df_data, null_columns: list, parser: dict, full_df):
     result = {}
     for column in null_columns:
         if column == "COD_DISTRITO":
-            result['COD_DISTRITO']= str.null_codDistrito_assign(df_data, parser["COD_DISTRITO"]["area"], parser["COD_DISTRITO"], full_df)
+            print("cod_distrito detectado")
+            #df_data['COD_DISTRITO'] = str.null_codDistrito_assign(df_data, parser["COD_DISTRITO"]["area"], parser["COD_DISTRITO"], full_df)
+            #df_data['COD_DISTRITO'] = str.null_assign("COD_DISTRITO", "ID", df_data, parser["DISTRITO"], full_df)
         elif column == "DISTRITO":
-            print("detecting distrito")
-            #null_distrito_asign()
+            df_data['DISTRITO'] = str.null_assign("DISTRITO", "ID", df_data, parser["DISTRITO"], full_df)
     
 def clean_duplicates(dataset, df, unique: dict, parser: dict):
     """Algorithm for cleansing duplicate ID."""

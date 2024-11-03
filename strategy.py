@@ -45,3 +45,26 @@ def null_codDistrito_assign(data, support_col, parser, df):
             print("NEW COD_DISTRITO IS", data['COD_DISTRITO'][i], "in position", i+1, "assigned is", assigned)
     return data['COD_DISTRITO']
 
+def null_assign(column: str, id_column:str, data: dict, parser: dict, df: dict) -> dict:
+    """Function that implements the assignation of null values for DISTRITO"""
+    null_elems = data[column].isnull().values.tolist()
+    for i in range(len(null_elems)):
+        if null_elems[i]:
+            #print("null item in position ", i)
+            assigned = False
+            for domain in parser:
+                if not assigned:
+                    for elem in parser[domain]:
+                        search_key = data[[elem]].iat[i,0]
+                        candidates = df[domain].query(f" {elem} == {search_key} and {column}.notnull()")
+                        #print("query data is", support_col[0], "for search key", search_key, "in", elem, domain)
+                        if not candidates.empty:
+                            #print("Candidates: ", candidates[column])
+                            data.loc[i,column]= candidates[column].iloc[0]
+                            assigned = True
+            if not assigned:
+                data.loc[i,column] = str(data[id_column][i]) + "-" + column + "-desconocido"
+
+            print("NEW " + column + " IS", data[column][i], "in position", i+1, "assigned is", assigned)
+    return data[column]
+

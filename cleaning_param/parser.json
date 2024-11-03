@@ -2,7 +2,7 @@
     {"dataset": "area",
      "null_values": {
        "COD_DISTRITO": {"area": ["DISTRITO"], "juegos": ["DISTRITO"]},
-       "DISTRITO": ["COD_DISTRITO"],
+       "DISTRITO": {"area": ["COD_DISTRITO"], "juegos": ["COD_DISTRITO"]},
        "TIPO_VIA": [],
         "NOM_VIA": [],
         "NUM_VIA": [],
