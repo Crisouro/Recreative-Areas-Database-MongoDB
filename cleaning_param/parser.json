@@ -66,15 +66,17 @@
       "enumeration display": {}
     },
     {"dataset": "usuarios",
-     "null_values": {
-       "search_values": {
-         "EMAIL": {"usuarios": ["NIF"]}
+       "null_values": {
+           "search_values":  {
+             "EMAIL": {"usuarios":  ["NIF"]}
+           },
+           "data_values": {
+             "EMAIL": {}
+           }
        },
-       "data_values": {"EMAIL": {}}
-      },
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+         "unique_id": {},
+        "expected format": {},
+        "enumeration display": {}
     },
 
     {"dataset": "juegos",

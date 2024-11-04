@@ -10,7 +10,7 @@ def clean_null(id_column:str, df_data: dict, null_columns: list, parser: dict, f
     for column in null_columns:
         print(column, "detectado...")
         #if column == "FECHA_INSTALACION":
-        print(parser["search_values"][column])
+        print(parser)
         df_data[column] = str.null_assign(column, id_column, df_data, parser["search_values"][column], parser["data_values"][column], full_df)
     return df_data
 
