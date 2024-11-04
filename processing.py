@@ -37,7 +37,8 @@ def cleanse_incidentes(df_data, to_process: dict, parser: dict, df):
 def cleanse_mantenimiento(df_data, to_process: dict, parser: dict, df):
     #cf.clean_duplicates("mantenimiento", df_data, to_process["unique_id"], parser["unique_id"])
     df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
-    #df_data.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
+    df_data["ID"] = cf.format_mamntenimiento_ID(df_data["ID"])
+    df_data.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_usuarios(df_data, to_process: dict, parser: dict, df):
     #cf.clean_duplicates("usuarios", df, to_process["unique_id"], parser["unique_id"])
@@ -95,12 +96,11 @@ if __name__ == "__main__":
 
         i += 1
 
-    cleanse_area(all_df['area'], results["area"], parser[0], all_df)
-    print("parser[1]", results["encuestas"], results["area"])
-    cleanse_encuestas(all_df['encuestas'], results["encuestas"], parser[1], all_df)
-    cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2], all_df)
-    cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3], all_df)
+    #cleanse_area(all_df['area'], results["area"], parser[0], all_df)
+    #cleanse_encuestas(all_df['encuestas'], results["encuestas"], parser[1], all_df)
+    #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2], all_df)
+    #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3], all_df)
     cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4], all_df)
-    cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[5], all_df)
-    cleanse_juegos(all_df['juegos'], results["juegos"], parser[6], all_df)
+    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[5], all_df)
+    #cleanse_juegos(all_df['juegos'], results["juegos"], parser[6], all_df)
     #cleanse_meteo(df_meteo)

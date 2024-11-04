@@ -58,3 +58,12 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
                 str.delete_duplicates(df, c_id, i)
 
             pass #Delete duplicates.
+
+def format_mamntenimiento_ID(id_column) -> dict:
+    result=[]
+    for i in range(len(id_column)):
+        item = id_column[i].strip()
+        num, letters = item.split(",00")
+        new_id = f"{letters}{num.zfill(6)}"
+        id_column.loc[i] = new_id
+    return id_column
