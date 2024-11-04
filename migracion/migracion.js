@@ -1,5 +1,5 @@
 /*AREA RECREATIVA_CLIMA*/
-db.AreaRecreativa.aggregate([
+db.Areas.aggregate([
     {
         $lookup: {
             from: "Juegos",
@@ -96,6 +96,9 @@ db.AreaRecreativa.aggregate([
             clima: 1, 
             encuestas: 1 
         }
+    },
+    {
+        $out: {db:"AreaRecreativa", coll: "AreaAgregado"} //Change DB
     }
 ])
 
@@ -128,6 +131,9 @@ db.Incidencia.aggregate([
         tiempoResolucion: "$TIEMPO_RESOLUCION",
         nivelEscalamiento: "$NIVEL_ESCALAMIENTO",
         usuarios: 1
+    },
+    {
+        $out: {db:"AreaRecreativa", coll: "IncidenciaAgregado"} //Change DB
     }
 ])
 
@@ -195,6 +201,9 @@ db.Juegos.aggregate([
             mantenimiento: { $arrayElemAt: ["$mantenimiento", 0] },
             incidencias: 1
         }
+    },
+    {
+        $out: {db:"AreaRecreativa", coll: "JuegosAgregado"} //Change DB
     }
 ])
 
