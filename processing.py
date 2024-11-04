@@ -9,44 +9,45 @@ import formatting as fr
 import newAttr as new
 
 
-def cleanse_area(df_area, to_process: dict, parser: dict, all_df)-> None:
+def cleanse_area(df_data, to_process: dict, parser: dict, df)-> None:
     """Functions responsible for the cleaning of Area dataset."""
-    #cf.clean_duplicates("area", df_area, to_process["unique_id"], parser["unique_id"])
+    #cf.clean_duplicates("area", df_data, to_process["unique_id"], parser["unique_id"])
     print("Cleaning Area dataset...")
-    cf.clean_null(df_area, to_process['n_columns'], parser['null_values'], all_df)
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
 
-    #df_area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
+def cleanse_encuestas(df_data, to_process: dict, parser: dict, df)->None:
+    #cf.clean_duplicates("encuestas", df_data, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "EncuestasSatisfaccionLimpio.csv"), header=True, sep=',', index=False)
 
+def cleanse_incidencias(df_data, to_process: dict, parser: dict, df):
+    #cf.clean_duplicates("incidentes", df_data, to_process["unique_id"], parser["unique_id"])
+    new.nivelEscalamiento(df_data)
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "IncidenciasLimpio.csv"), header=True, sep=',', index=False)
 
-
-def cleanse_encuestas(df, to_process: dict, parser: dict)->None:
-    cf.clean_duplicates("encuestas", df, to_process["unique_id"], parser["unique_id"])
-    #cf.clean_null(df, to_process['n_columns'], parser['null_values'])
-
-    df.to_csv(os.path.join("cleaned", "EncuestasSatisfaccionLimpio.csv"), header=True, sep=',', index=False)
-
-def cleanse_incidencias(df, to_process: dict, parser: dict):
-    cf.clean_duplicates("incidentes", df, to_process["unique_id"], parser["unique_id"])
-    new.nivelEscalamiento(df)
-    df.to_csv(os.path.join("cleaned", "IncidenciasLimpio.csv"), header=True, sep=',', index=False)
-
-def cleanse_incidentes(df, to_process: dict, parser: dict):
-    cf.clean_duplicates("incidentes", df, to_process["unique_id"], parser["unique_id"])
-    df.to_csv(os.path.join("cleaned", "IncidentesLimpio.csv"), header=True, sep=',', index=False)
+def cleanse_incidentes(df_data, to_process: dict, parser: dict, df):
+    #cf.clean_duplicates("incidentes", df_data, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "IncidentesLimpio.csv"), header=True, sep=',', index=False)
 
 
 
-def cleanse_mantenimiento(df, to_process: dict, parser: dict):
-    cf.clean_duplicates("mantenimiento", df, to_process["unique_id"], parser["unique_id"])
-    df.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
+def cleanse_mantenimiento(df_data, to_process: dict, parser: dict, df):
+    #cf.clean_duplicates("mantenimiento", df_data, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
 
-def cleanse_usuarios(df, to_process: dict, parser: dict):
-    cf.clean_duplicates("usuarios", df, to_process["unique_id"], parser["unique_id"])
-    df.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
+def cleanse_usuarios(df_data, to_process: dict, parser: dict, df):
+    #cf.clean_duplicates("usuarios", df, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
 
-def cleanse_juegos(df, to_process: dict, parser: dict):
-    cf.clean_duplicates("juegos", df, to_process["unique_id"], parser["unique_id"])
-    df.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
+def cleanse_juegos(df_data, to_process: dict, parser: dict, df):
+    #cf.clean_duplicates("juegos", df_data, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    #df_data.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_meteo(df):
     pass
@@ -64,13 +65,13 @@ if __name__ == "__main__":
     all_df = {}
 
     all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
-    #all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
-    #all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
-    #all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
-    #all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') #TODO: Revisar ID
-    #all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
+    all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
+    all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
+    all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
+    all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') #TODO: Revisar ID
+    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',') #TODO: NIF especial porque email y teléfono diferentes.
     all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
-    #all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
+    all_df["meteo"] = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=',') #Revisar JSON.
     
     #print("Columns: ", all_df["area"].columns)
     #print(all_df["area"].head())
@@ -87,7 +88,7 @@ if __name__ == "__main__":
 
     #GENERAL ANALYSIS:
     #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
-    i = 5
+    i = 0
     results = {}
     for key in all_df.keys():
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"])
@@ -95,10 +96,11 @@ if __name__ == "__main__":
         i += 1
 
     cleanse_area(all_df['area'], results["area"], parser[0], all_df)
-    #cleanse_encuestas(all_df['encuestas'], results["encuestas"])
-    #cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2])
-    #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3])
-    #cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4])
-    #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[0])
-    #cleanse_juegos(all_df['juegos'], results["juegos"], parser[6])
+    print("parser[1]", results["encuestas"], results["area"])
+    cleanse_encuestas(all_df['encuestas'], results["encuestas"], parser[1], all_df)
+    cleanse_incidencias(all_df['incidencias'], results["incidencias"], parser[2], all_df)
+    cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3], all_df)
+    cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4], all_df)
+    cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[0], all_df)
+    cleanse_juegos(all_df['juegos'], results["juegos"], parser[6], all_df)
     #cleanse_meteo(df_meteo)
