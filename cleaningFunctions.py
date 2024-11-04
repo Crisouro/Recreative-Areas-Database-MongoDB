@@ -4,16 +4,15 @@ import pandas as pd
 import strategy as str
 import re
 
-def clean_null(df_data, null_columns: list, parser: dict, full_df):
+def clean_null(id_column:str, df_data: dict, null_columns: list, parser: dict, full_df):
     """Algorithm for cleaning the null values of a column"""
     result = {}
     for column in null_columns:
-        if column == "COD_DISTRITO":
-            print("cod_distrito detectado")
-            #df_data['COD_DISTRITO'] = str.null_codDistrito_assign(df_data, parser["COD_DISTRITO"]["area"], parser["COD_DISTRITO"], full_df)
-            #df_data['COD_DISTRITO'] = str.null_assign("COD_DISTRITO", "ID", df_data, parser["DISTRITO"], full_df)
-        elif column == "DISTRITO":
-            df_data['DISTRITO'] = str.null_assign("DISTRITO", "ID", df_data, parser["DISTRITO"], full_df)
+        print(column, "detectado...")
+        #if column == "FECHA_INSTALACION":
+        df_data[column] = str.null_assign(column, id_column, df_data, parser["search_values"][column], parser["data_values"][column], full_df)
+
+
     
 def clean_duplicates(dataset, df, unique: dict, parser: dict):
     """Algorithm for cleansing duplicate ID."""

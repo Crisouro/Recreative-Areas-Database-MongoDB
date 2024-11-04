@@ -1,140 +1,116 @@
 [
     {"dataset": "area",
-     "null_values": {
-       "COD_DISTRITO": {"area": ["DISTRITO"], "juegos": ["DISTRITO"]},
-       "DISTRITO": {"area": ["COD_DISTRITO"], "juegos": ["COD_DISTRITO"]},
-       "TIPO_VIA": [],
-        "NOM_VIA": [],
-        "NUM_VIA": [],
-        "COD_POSTAL": [],
-        "DIRECCION_AUX": [],
-         "NDP": [],
-         "FECHA_INSTALACION":[],
-         "CODIGO_INTERNO": []
-      },
+       "null_values": {
+         "search_values": {
+           "COD_DISTRITO": {"area": ["DISTRITO"], "juegos": ["DISTRITO"]},
+           "DISTRITO": {"area": ["COD_DISTRITO"], "juegos": ["COD_DISTRITO"]},
+           "TIPO_VIA": {"area": ["NOM_VIA", "DIRECCION_AUX"], "juegos": ["NOM_VIA", "DIRECCION_AUX"]},
+            "NOM_VIA": {"area": ["DIRECCION_AUX"], "juegos": ["DIRECCION_AUX", "NDP"]},
+            "NUM_VIA": {"area": ["NOM_VIA", "DIRECCION_AUX"], "juegos": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
+            "COD_POSTAL": {"area": ["NOM_VIA", "DIRECCION_AUX"], "juegos": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
+            "DIRECCION_AUX": {"area": ["NOM_VIA"], "juegos": ["NOM_VIA", "NDP"]},
+             "NDP": { "juegos": ["NOM_VIA", "DIRECCION_AUX", "COD_POSTAL"]},
+             "FECHA_INSTALACION":{"juegos": ["NDP"], "encuestas": ["AreaRecreativaID"]},
+             "CODIGO_INTERNO": {"juegos": ["NDP"]}
+         },
+         "data_values": {
+           "COD_DISTRITO": { } ,
+           "DISTRITO": { },
+           "TIPO_VIA": { },
+            "NOM_VIA": { },
+            "NUM_VIA": { },
+            "COD_POSTAL": { },
+            "DIRECCION_AUX": { },
+            "NDP": { },
+            "FECHA_INSTALACION": { "encuestas": ["ID"]},
+            "CODIGO_INTERNO": { }
+            }
+       },
       "unique_id": {
         "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
       },
       "expected format": {},
       "enumeration display": {}
     },
-    {"dataset": "area",
-     "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
-      },
-      "unique_id": {
-        "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
-      },
+    {"dataset": "encuestas",
+     "null_values": {},
+      "unique_id": {},
       "expected format": {},
       "enumeration display": {}
     }, 
-    {"dataset": "area",
-     "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
-      },
-      "unique_id": {
-        "ID": ["FECHA_REPORTE"]
-      },
+    {"dataset": "incidencias",
+     "null_values": {},
+      "unique_id": {},
       "expected format": {},
       "enumeration display": {}
     },
-    {"dataset": "area",
-     "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
-      },
-      "unique_id": {
-        "ID": ["FECHA_REPORTE"]
-      },
+    {"dataset": "incidentes",
+     "null_values": {},
+      "unique_id": {},
       "expected format": {},
       "enumeration display": {}
     },
-    {"dataset": "area",
+    {"dataset": "mantenimiento",
      "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
-      },
-      "unique_id": {
-        "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
-      },
+         "search_values":  {
+           "TIPO": {},
+           "COMENTARIOS": {}
+         },
+         "support_values": {
+           "TIPO": {},
+           "COMENTARIOS": {}
+         }
+       },
+      "unique_id": {},
       "expected format": {},
       "enumeration display": {}
     },
-    {"dataset": "area",
+    {"dataset": "usuarios",
      "null_values": {
-       "TIPO_VIA": "TipoViaDesconocido",
-        "NOM_VIA": "NomViaDesconocido",
-        "NUM_VIA": "NumViaDesconocido",
-        "COD_POSTAL": "CodPostalDesconocido",
-        "DIRECCION_AUX": "DireccionAuxDesconocida",
-         "NDP": "NdpDesconocido",
-         "FECHA_INSTALACION": "FechaInstalDesconocida",
-         "CODIGO_INTERNO": "CodInternoDesconocido",
-         "CONTRATO_COD": "CodContratoDesconocido",
-         "TOTAL_ELEM": "NumElemDesconocido",
-         "CAPACIDAD_MAX": "CapMaxDesconocida"
+       "search_values": {"EMAIL": {"usuarios":  ["NIF"]}},
+       "support_values": {"EMAIL": {}}
       },
-      "unique_id": {
-        "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
-      },
+      "unique_id": {},
       "expected format": {},
       "enumeration display": {}
-    }, 
-    {"dataset": "area",
+    },
+
+    {"dataset": "juegos",
     "null_values": {
-      "TIPO_VIA": "TipoViaDesconocido",
-       "NOM_VIA": "NomViaDesconocido",
-       "NUM_VIA": "NumViaDesconocido",
-       "COD_POSTAL": "CodPostalDesconocido",
-       "DIRECCION_AUX": "DireccionAuxDesconocida",
-        "NDP": "NdpDesconocido",
-        "FECHA_INSTALACION": "FechaInstalDesconocida",
-        "CODIGO_INTERNO": "CodInternoDesconocido",
-        "CONTRATO_COD": "CodContratoDesconocido",
-        "TOTAL_ELEM": "NumElemDesconocido",
-        "CAPACIDAD_MAX": "CapMaxDesconocida"
+      "search_values": {
+           "COD_DISTRITO": {"juegos": ["DISTRITO"], "area": ["DISTRITO"]},
+           "DISTRITO": {"juegos": ["COD_DISTRITO"], "area": ["COD_DISTRITO"]},
+           "COORD_GIS_X": {"juegos": ["NDP"], "area": ["NDP"]},
+           "COORD_GIS_Y": {"juegos": ["NDP"], "area": ["NDP"]},
+           "TIPO_VIA": {"juegos": ["NOM_VIA", "DIRECCION_AUX"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
+            "NOM_VIA": {"juegos": ["DIRECCION_AUX"], "area": ["DIRECCION_AUX", "NDP"]},
+            "NUM_VIA": {"juegos": ["NOM_VIA", "DIRECCION_AUX"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
+            "COD_POSTAL": {"juegos": ["NOM_VIA", "DIRECCION_AUX", "NDP"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
+            "DIRECCION_AUX": {"juegos": ["NOM_VIA"], "area": ["NOM_VIA", "NDP"]},
+             "NDP": { "juegos": ["NOM_VIA", "DIRECCION_AUX", "COD_POSTAL"],  "area": ["NOM_VIA", "DIRECCION_AUX"]},
+             "FECHA_INSTALACION":{"juegos": ["NDP"], "area": ["NDP"]},
+             "CODIGO_INTERNO": {"area": ["NDP"]},
+            "MODELO": {},
+            "ACCESIBLE": {"juegos": ["NDP"]}
+         },
+         "data_values": {
+           "COD_DISTRITO": { } ,
+           "COORD_GIS_X": {},
+           "COORD_GIS_Y": {},
+           "DISTRITO": { },
+           "TIPO_VIA": { },
+            "NOM_VIA": { },
+            "NUM_VIA": { },
+            "COD_POSTAL": { },
+            "DIRECCION_AUX": { },
+            "NDP": { },
+            "FECHA_INSTALACION": { "encuestas": ["ID"]},
+            "CODIGO_INTERNO": { },
+            "MODELO": {},
+            "ACCESIBLE": {}
+            }
      },
-     "unique_id": {
-       "ID": ["BARRIO"]
-     },
+     "unique_id": {},
      "expected format": {},
      "enumeration display": {}
    }
