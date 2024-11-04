@@ -53,12 +53,12 @@
     {"dataset": "mantenimiento",
      "null_values": {
          "search_values":  {
-           "TIPO": {},
-           "COMENTARIOS": {}
+           "Tipo": {},
+           "Comentarios": {}
          },
-         "support_values": {
-           "TIPO": {},
-           "COMENTARIOS": {}
+         "data_values": {
+           "Tipo": {},
+           "Comentarios": {}
          }
        },
       "unique_id": {},
@@ -66,13 +66,17 @@
       "enumeration display": {}
     },
     {"dataset": "usuarios",
-     "null_values": {
-       "search_values": {"EMAIL": {"usuarios":  ["NIF"]}},
-       "support_values": {"EMAIL": {}}
-      },
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+       "null_values": {
+           "search_values":  {
+             "EMAIL": {"usuarios":  ["NIF"]}
+           },
+           "data_values": {
+             "EMAIL": {}
+           }
+       },
+         "unique_id": {},
+        "expected format": {},
+        "enumeration display": {}
     },
 
     {"dataset": "juegos",
@@ -87,7 +91,7 @@
             "NUM_VIA": {"juegos": ["NOM_VIA", "DIRECCION_AUX"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
             "COD_POSTAL": {"juegos": ["NOM_VIA", "DIRECCION_AUX", "NDP"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
             "DIRECCION_AUX": {"juegos": ["NOM_VIA"], "area": ["NOM_VIA", "NDP"]},
-             "NDP": { "juegos": ["NOM_VIA", "DIRECCION_AUX", "COD_POSTAL"],  "area": ["NOM_VIA", "DIRECCION_AUX"]},
+             "NDP": { "juegos": ["NOM_VIA", "DIRECCION_AUX"],  "area": ["NOM_VIA", "DIRECCION_AUX", "COD_POSTAL"]},
              "FECHA_INSTALACION":{"juegos": ["NDP"], "area": ["NDP"]},
              "CODIGO_INTERNO": {"area": ["NDP"]},
             "MODELO": {},
@@ -113,17 +117,5 @@
      "unique_id": {},
      "expected format": {},
      "enumeration display": {}
-   },
-  {"dataset": "usuarios",
-    "null_values": {
-
-        "EMAIL": "CorreoDesconocido"
-     },
-     "unique_id": {
-       "ID": ["NIF"]
-     },
-     "expected format": {},
-     "enumeration display": {}}
-
+   }
 ]
-

@@ -54,7 +54,7 @@ def null_assign(column: str, id_column:str, data: dict, parser: dict, support:di
                             # CASO 2: el dataset origen y destino NO comparten la columna de búsqueda
                             search_key = data[support[domain]].iat[i,0]
                             # searching candidates for data assignation
-                            print("query data is ", elem, "for search key", search_key, "type", type(search_key), "and column", column, "in", elem, domain)
+                            #print("query data is ", elem, "for search key", search_key, "type", type(search_key), "and column", column, "in", elem, domain)
                             if type(search_key) == str:
                                 candidates = df[domain].query(f" {elem} == '{search_key}'")
                             elif not pd.isna(search_key):
@@ -67,6 +67,6 @@ def null_assign(column: str, id_column:str, data: dict, parser: dict, support:di
             if not assigned:
                 data.loc[i,column] = str(data[id_column][i]) + "-" + column + "-desconocido"
 
-            print("NEW " + column + " IS", data[column][i], "in position", i+1, "assigned is", assigned)
+            #print("NEW " + column + " IS", data[column][i], "in position", i+1, "assigned is", assigned)
     return data[column]
 
