@@ -6,6 +6,7 @@ import pandas as pd
 import cleaningFunctions as cf
 from generalAnalysis import general_analysis
 import formatting as fr
+import newAttr as new
 
 
 def cleanse_area(df_area, to_process: dict, parser: dict, all_df)-> None:
@@ -26,6 +27,7 @@ def cleanse_encuestas(df, to_process: dict, parser: dict)->None:
 
 def cleanse_incidencias(df, to_process: dict, parser: dict):
     cf.clean_duplicates("incidentes", df, to_process["unique_id"], parser["unique_id"])
+    new.nivelEscalamiento(df)
     df.to_csv(os.path.join("cleaned", "IncidenciasLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_incidentes(df, to_process: dict, parser: dict):
