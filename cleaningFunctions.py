@@ -61,12 +61,12 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
             pass #Delete duplicates.
 
 def format_mamntenimiento_ID(id_column) -> dict:
+    new_id = []
     for i in range(len(id_column)):
         item = id_column[i].strip()
         num, letters = item.split(",00")
-        new_id = f"{letters}{num.zfill(6)}"
-        id_column.loc[i] = new_id
-    return id_column
+        new_id.append(f"{letters}{num.zfill(6)}")
+    return new_id
 
 def format_spacial_coordenates_area(df_data: dict) -> dict:
    """This function transforms the latitude and longitude into a single column"""
@@ -107,3 +107,14 @@ def format_spacial_coordenates_juego(df_data: dict) -> dict:
     df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
     df_data.drop(columns=['COORD_GIS_Y'], inplace=True)
     return df_data
+def resolution_time(df_data: dict, df_mantenimiento) -> dict:
+    for item in df_data:
+        print(item)
+        # Step 1: find Manteinance associated to an Incidence
+        search_key = item['MantenimeintoID']
+        candidates = df_mantenimiento.query(f" 'ID' == {search_key}")
+        #Step 2: use the latest manteinance date as close date
+        print(candidates['FECHA_INTERVENCION'].max())
+        print(candidates['FECHA_INTERVENCION'].min())
+        #Stept 3: calculation of solving time
+    #return df_data
