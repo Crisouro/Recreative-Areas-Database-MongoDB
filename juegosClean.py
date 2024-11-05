@@ -1,0 +1,45 @@
+
+import json
+import os
+import pandas as pd
+import formatting as fr
+from generalAnalysis import general_analysis
+import cleaningFunctions as cf
+import newAttr as new
+
+if __name__ == "__main__":
+
+    with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
+        parser = json.load(js)
+
+    all_df = {}
+
+    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
+    all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
+    all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
+    all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',') 
+    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',')
+    all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
+
+    juegos = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
+
+    #FORMATTING
+    fr.general_format(juegos)
+    fr.date_typo_format(juegos, "FECHA_INSTALACION")
+    juegos = cf.format_spacial_coordenates_area(juegos) #MOVER A FORMATTING PORFA
+
+    #GENERAL ANALYSIS
+    results = general_analysis(juegos, ["ID"])
+    
+    #CLEANING
+    cf.clean_duplicates("juegos", juegos, results["unique_id"], parser[6]["unique_id"])
+    
+    print("\n[juegos][CLEAN_NULLS]")
+    #juegos = cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], all_df) #HACER QUE FUNCIONE
+    
+    #NEW ATTR
+    new.indicadorExposicion(juegos)
+
+    #SAVE
+    juegos.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
