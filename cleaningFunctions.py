@@ -23,7 +23,7 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
 
     unique_conditions = {}
     unique_ids = list(unique.keys())
-    print("UNIQUE KEYS:", unique_ids)
+    #print("UNIQUE KEYS:", unique_ids)
     unique_ids.remove("same")
 
     for id in unique_ids:
@@ -37,11 +37,9 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
                 print(dup)
                 #Each duplicate value has different values in between regarding relevant columns that make an entry unique.
                 
-                #Trabajar esta condición
                 unique_dup = False
                 if any(item in dup["all"] for item in unique_conditions[id]):
                     unique_dup = True
-                #>>>>
 
                 if (unique_dup):
                     #APPLYING STRATEGY FOR GIVING UNIQUE VALUE.
@@ -60,7 +58,7 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
 
             pass #Delete duplicates.
 
-def format_mamntenimiento_ID(id_column) -> dict:
+def format_mantenimiento_ID(id_column) -> dict:
     for i in range(len(id_column)):
         item = id_column[i].strip()
         num, letters = item.split(",00")

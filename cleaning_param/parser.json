@@ -28,27 +28,25 @@
        },
       "unique_id": {
         "ID": ["COORD_GIS_X", "COORD_GIS_Y", "LONGITUD", "LATITUD", "DIRECCION_AUX"]
-      },
-      "expected format": {},
-      "enumeration display": {}
+      }
     },
     {"dataset": "encuestas",
      "null_values": {},
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+      "unique_id": {
+        "ID": ["ID"]
+      }
     }, 
     {"dataset": "incidencias",
      "null_values": {},
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+     "unique_id": {
+        "ID": ["ID"]
+      }
     },
     {"dataset": "incidentes",
      "null_values": {},
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+      "unique_id": {
+        "ID": ["ID"]
+      }
     },
     {"dataset": "mantenimiento",
      "null_values": {
@@ -61,9 +59,9 @@
            "Comentarios": {}
          }
        },
-      "unique_id": {},
-      "expected format": {},
-      "enumeration display": {}
+      "unique_id": {
+        "ID": ["ID"]
+      }
     },
     {"dataset": "usuarios",
        "null_values": {
@@ -74,9 +72,7 @@
              "EMAIL": {}
            }
        },
-         "unique_id": {},
-        "expected format": {},
-        "enumeration display": {}
+         "unique_id": {}
     },
 
     {"dataset": "juegos",
@@ -114,8 +110,8 @@
             "ACCESIBLE": {}
             }
      },
-     "unique_id": {},
-     "expected format": {},
-     "enumeration display": {}
+     "unique_id": {
+      "ID": ["ID"]
+     }
    }
 ]

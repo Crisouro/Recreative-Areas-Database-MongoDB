@@ -17,7 +17,7 @@ def general_format(df):
 
         df[c] = df[c].apply(lambda x: string_formatting(x))
 
-        print(c, ": ", df[c].unique())
+        #print(c, ": ", df[c].unique())
 
 def date_unifier(str):
     output_pattern = "%Y-%m-%dT%H:%M:%S.%fZ"
