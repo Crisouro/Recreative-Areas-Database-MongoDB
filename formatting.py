@@ -65,18 +65,18 @@ def date_typo_format(df, c_date):
 
 
 def format_phone_number(phone):
-    # Eliminar todos los espacios del teléfono
+    """Funcion para poner todos los numeros de telefono en el mismo formato"""
     phone = phone.replace(" ", "")
-
-    # Añadir el prefijo '+' si no está presente
-    if not phone.startswith("+"):
-        phone = "+" + phone
-
+    if phone.startswith("+34"):
+        phone = phone[3:]
+    if phone.startswith("34"):
+        phone = phone[2:]
     return phone
 
 def remove_dup_prefix(email):
     # Si el email empieza con 'dup_', quitar esa parte
-    if isinstance(email, str) and email.startswith("dup_"):
+    if email is not None and isinstance(email, str) and email.startswith("dup_"):
         return email[4:]  # Quita los primeros 4 caracteres ("dup_")
     return email
+
 

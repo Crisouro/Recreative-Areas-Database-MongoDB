@@ -1,39 +1,43 @@
-import pandas as pd
+import json
 import os
-from unidecode import unidecode
+import pandas as pd
+import formatting as fr
+from generalAnalysis import general_analysis
+import cleaningFunctions as cf
+import newAttr as new
 
-def rellenar_null(row,column,data_missing):
-    """Funcion para gestionar los valores nulos"""
-    if pd.isnull(row[column]):
-        return f'{row["NIF"]}-{data_missing}'
-    return row[column]
+if __name__ == "__main__":
+    with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
+        parser = json.load(js)
 
-def format_phone_number(phone):
-    """Funcion para poner todos los numeros de telefono en el mismo formato"""
-    phone = phone.replace(" ", "")
-    if phone.startswith("+34"):
-        phone = phone[3:]
-    if phone.startswith("34"):
-        phone = phone[2:]
-    return phone
+    all_df = {}
 
-def remove_dup_prefix(email):
-    # Si el email empieza con 'dup_', quitar esa parte
-    if isinstance(email, str) and email.startswith("dup_"):
-        return email[4:]  # Quita los primeros 4 caracteres ("dup_")
-    return email
+    all_df["area"] = pd.read_csv(os.path.join("files", "AreasSucio.csv"), sep=',')
+    all_df["encuestas"] = pd.read_csv(os.path.join("files", "EncuestasSatisfaccionSucio.csv"), sep=',')
+    all_df["incidencias"] = pd.read_csv(os.path.join("files", "IncidenciasUsuariosSucio.csv"), sep=',')
+    all_df["incidentes"] = pd.read_csv(os.path.join("files", "IncidentesSeguridadSucio.csv"), sep=',')
+    all_df["mantenimientos"] = pd.read_csv(os.path.join("files", "MantenimientoSucio.csv"), sep=',')
+    all_df["usuarios"] = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',')
+    all_df["juegos"] = pd.read_csv(os.path.join("files", "JuegosSucio.csv"), sep=',')
 
-#Cambiar por la ruta en la que se encuentre el fichero UsuariosSucio.csv
-csv_input = "/Users/luciasotogarcia/PycharmProjects/mongo_processing2/files/UsuariosSucio.csv"
+    usuarios = pd.read_csv(os.path.join("files", "UsuariosSucio.csv"), sep=',')
 
-df = pd.read_csv(csv_input)
-df["NOMBRE"] = df["NOMBRE"].str.lower() #nombre en minusculas
-df["NOMBRE"] =df["NOMBRE"].apply(unidecode) #nombre sin tildes
-df["EMAIL"] = df["EMAIL"].str.lower() #mail en minusculas
-df["TELEFONO"] = df["TELEFONO"].apply(format_phone_number)
-df["EMAIL"] = df.apply(lambda row: rellenar_null(row, "EMAIL", "desconocido"), axis=1)
-df["EMAIL"] = df["EMAIL"].apply(remove_dup_prefix)
-df.drop_duplicates(subset=["NIF", "TELEFONO", "EMAIL"], keep='first')
+    # FORMATTING
+    fr.general_format(usuarios)
+    usuarios["TELEFONO"] = usuarios["TELEFONO"].apply(fr.format_phone_number)
+    usuarios["EMAIL"] = usuarios["EMAIL"].apply(fr.remove_dup_prefix)
+    usuarios.drop_duplicates(subset=["NIF", "EMAIL", "TELEFONO"])
 
-#Crear una carpeta cleaned en el directorio del proyecto si no se tiene
-df.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
+    # GENERAL ANALYSIS
+    results = general_analysis(usuarios, ["NIF"])
+
+
+
+    print("\n[usuarios][CLEAN_NULLS]")
+    usuarios = cf.clean_null("NIF", usuarios, results['n_columns'], parser[5]['null_values'], all_df) #HACER QUE FUNCIONE
+
+
+
+
+    # SAVE
+    usuarios.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
