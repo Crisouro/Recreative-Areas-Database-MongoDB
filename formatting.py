@@ -16,7 +16,8 @@ def general_format(df):
             return x
 
         df[c] = df[c].apply(lambda x: string_formatting(x))
-
+        
+        print("[FORMATTING][NORMALIZING][", c ,"] Checked")
         #print(c, ": ", df[c].unique())
 
 def date_unifier(str):
@@ -49,25 +50,18 @@ def date_unifier(str):
     
     raise ValueError("El formato de fecha no es reconocido")
 
-def typo_format(df, c_format):
+def date_typo_format(df, c_date):
     """Function for solving typographic errors."""
 
-    if (len(c_format.keys()) != 0):
-        
-        for c, json in c_format.items():
-            if ("FECHA" not in c):
-                for field, value in json.items():
-                    df[c][df[c] == field] = df[c][df[c] == field].apply(lambda x: value)
-            else:
-                regex = re.compile(json["pattern"])
-
-                def aplicar_regex(x, regex):
-                    if pd.isnull(x):  
-                        return x
-                    else:
-                        return date_unifier(x)
+    def aplicar_regex(x):
+        if pd.isnull(x):  
+            return x
+        else:
+            return date_unifier(x)
                     
-                df[c] = df[c].apply(lambda x: aplicar_regex(x, regex))
+    df[c_date] = df[c_date].apply(lambda x: aplicar_regex(x))
+
+    print("[FORMATTING][DATE] Checked")
 
 
 def format_phone_number(phone):

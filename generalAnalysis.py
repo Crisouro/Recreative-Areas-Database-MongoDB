@@ -37,14 +37,16 @@ def unique_id(df, c_id: list)-> dict:
             same["col_diff"][c][d] = {}
             
             dup_df = df[df[c] == d]
-            #print(f"'{c}' = '{d}' :")
+            print(f"'{c}' = '{d}' :")
             
-            copy = 0
             same["col_diff"][c][d]["all"] = []
             same["col_diff"][c][d]["some"] = [] 
             for col in dup_df.columns:
+
+                if (dup_df[col].notna().all()):
+                    continue
+
                 if (len(dup_df[col].unique()) != 1):
-                    
                     if (same["same"]):
                         same["same"] = False
                     

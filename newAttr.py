@@ -10,7 +10,8 @@ def nivelEscalamiento(df):
 
 def indicadorExposicion(df):
     """Function that generates indicadorExposicion value for df"""
-    df["INDICADOR_EXPOSICION"] = np.random.choice["bajo", "medio", "alto"]
+    df["INDICADOR_EXPOSICION"] = np.random.choice(["bajo", "medio", "alto"], size=df.shape[0])
+
 
 def capacidadMax(df):
     "Function that generates capacidadMax value for df"
