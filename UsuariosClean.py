@@ -1,7 +1,8 @@
 import pandas as pd
 import os
 
-def fill_missing_tipo(row,column,string_missing):
+def rellenar_null(row,column,string_missing):
+    """Funcion para gestionar los nulos de estas columnas"""
     if pd.isnull(row[column]):
         return f'{string_missing}_{row["NIF"]}'
     return row[column]
@@ -21,6 +22,6 @@ df = pd.read_csv(csv_input)
 df["NOMBRE"] = df["NOMBRE"].str.lower()
 df["EMAIL"] = df["EMAIL"].str.lower()
 df["TELEFONO"] = df["TELEFONO"].apply(format_phone_number)
-df["EMAIL"] = df.apply(lambda row: fill_missing_tipo(row, "EMAIL", "EMAIL_DESCONOCIDO"), axis=1)
+df["EMAIL"] = df.apply(lambda row: rellenar_null(row, "EMAIL", "EmailDesconocido"), axis=1)
 
 df.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
