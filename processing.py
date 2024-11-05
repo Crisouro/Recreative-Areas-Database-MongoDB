@@ -12,9 +12,11 @@ import newAttr as new
 
 def cleanse_area(df_data, to_process: dict, parser: dict, df)-> None:
     """Functions responsible for the cleaning of Area dataset."""
-    print("Cleaning Area dataset...")
-    #cf.clean_duplicates("area", df_data, to_process["unique_id"], parser["unique_id"])
-    #df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+
+    print("\n Cleaning Area dataset...")
+    cf.clean_duplicates("area", df_data, to_process["unique_id"], parser["unique_id"])
+    print("[area][CLEAN_NULL]")
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
     df_data = cf.format_spacial_coordenates_area(df_data)
     df_data.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
 
@@ -48,10 +50,10 @@ def cleanse_usuarios(df_data, to_process: dict, parser: dict, df):
     #df_data.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_juegos(df_data, to_process: dict, parser: dict, df):
-    print("Cleaning Juegos dataset...")
-    #cf.clean_duplicates("juegos", df_data, to_process["unique_id"], parser["unique_id"])
-    #df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
-    df_data = cf.format_spacial_coordenates_juego(df_data)
+
+    print("\n Cleaning Juegos dataset...")
+    cf.clean_duplicates("juegos", df_data, to_process["unique_id"], parser["unique_id"])
+    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
     df_data.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_meteo(df):
@@ -84,18 +86,19 @@ if __name__ == "__main__":
     #FORMATTING:
 
     #Formatting Normalization + Typographic corrections
-    """i = 5
+    i = 0
     for key in all_df.keys():
         fr.general_format(all_df[key])
         fr.typo_format(all_df[key], gcl_data[i]["c_format"])
 
-        i += 1"""
+        i += 1
 
     #GENERAL ANALYSIS:
     #Ahora que lo estamos probando de uno en uno hay que actualizar i cada vez (area=0, encuestas=1 ...)
     i = 0
     results = {}
     for key in all_df.keys():
+        print("[", key, "]")
         results[key] = general_analysis(all_df[key], gcl_data[i]["c_id"])
 
         i += 1

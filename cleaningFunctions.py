@@ -36,12 +36,10 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
             for i, dup in unique["same"]["col_diff"][c_id].items():
                 print(dup)
                 #Each duplicate value has different values in between regarding relevant columns that make an entry unique.
-                
-                #Trabajar esta condición
+
                 unique_dup = False
                 if any(item in dup["all"] for item in unique_conditions[id]):
                     unique_dup = True
-                #>>>>
 
                 if (unique_dup):
                     #APPLYING STRATEGY FOR GIVING UNIQUE VALUE.

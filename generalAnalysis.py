@@ -37,7 +37,7 @@ def unique_id(df, c_id: list)-> dict:
             same["col_diff"][c][d] = {}
             
             dup_df = df[df[c] == d]
-            print(f"'{c}' = '{d}' :")
+            #print(f"'{c}' = '{d}' :")
             
             copy = 0
             same["col_diff"][c][d]["all"] = []
@@ -59,24 +59,13 @@ def unique_id(df, c_id: list)-> dict:
     unique["same"] = same
 
     return unique
-        
 
-def enum_display(df, c_enum: list)-> dict:
-    """Function that displays the values used in an enumerated type field."""
-    enum_values = {}
-
-    print("\n[GENERAL ANALYSIS][ENUMERATION DISPLAY]")
-    for c in c_enum:
-        enum_values[c] = df[c].unique()
-        print(c, ": ", enum_values[c])
-
-    return enum_values
 
 def general_analysis(df, c_id: list)-> dict:
     """Function that executes a general analysis with common anomalies to all dataframes."""
     to_process = {}
 
     to_process["n_columns"] = null_values(df)               #1) Columns with null values?
-    #to_process["unique_id"] = unique_id(df, c_id)           #2) A Unique data column has duplicates?
+    to_process["unique_id"] = unique_id(df, c_id)           #2) A Unique data column has duplicates?
 
     return to_process
