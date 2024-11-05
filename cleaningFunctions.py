@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+import pyproj
 import strategy as str
 import re
 
@@ -60,10 +61,27 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
             pass #Delete duplicates.
 
 def format_mamntenimiento_ID(id_column) -> dict:
-    result=[]
     for i in range(len(id_column)):
         item = id_column[i].strip()
         num, letters = item.split(",00")
         new_id = f"{letters}{num.zfill(6)}"
         id_column.loc[i] = new_id
     return id_column
+
+def format_spacial_coordenates_area(df_data: dict) -> dict:
+   """This function transforms the UTM coordinate columns into a single longitude-latitude column"""
+   #Unpacking needed data
+   x_column= df_data['LONGITUD']
+   y_column = df_data['LATITUD']
+   new_coord =[]
+
+   for i in range(len(x_column)):
+       #data transformation into a longitude-latitude pair.
+       x = float(x_column[i])
+       y = float(y_column[i])
+       new_coord.append([x, y])
+
+   #Seting up the new dataset structure
+   df_data['COORD_GIS'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84']*len(df_data)
+   df_data.drop(columns=['COORD_GIS_Y', 'COORD_GIS_X', 'LATITUD', 'LONGITUD'], inplace=True)
+   return df_data
