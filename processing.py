@@ -12,8 +12,8 @@ import newAttr as new
 
 def cleanse_area(df_data, to_process: dict, parser: dict, df)-> None:
     """Functions responsible for the cleaning of Area dataset."""
-    #cf.clean_duplicates("area", df_data, to_process["unique_id"], parser["unique_id"])
     print("Cleaning Area dataset...")
+    #cf.clean_duplicates("area", df_data, to_process["unique_id"], parser["unique_id"])
     #df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
     df_data = cf.format_spacial_coordenates_area(df_data)
     df_data.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
@@ -48,9 +48,11 @@ def cleanse_usuarios(df_data, to_process: dict, parser: dict, df):
     #df_data.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_juegos(df_data, to_process: dict, parser: dict, df):
+    print("Cleaning Juegos dataset...")
     #cf.clean_duplicates("juegos", df_data, to_process["unique_id"], parser["unique_id"])
-    df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
-    #df_data.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
+    #df_data = cf.clean_null("ID", df_data, to_process['n_columns'], parser['null_values'], df)
+    df_data = cf.format_spacial_coordenates_juego(df_data)
+    df_data.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
 
 def cleanse_meteo(df):
     pass
@@ -104,5 +106,5 @@ if __name__ == "__main__":
     #cleanse_incidentes(all_df['incidentes'], results["incidentes"], parser[3], all_df)
     #cleanse_mantenimiento(all_df["mantenimientos"], results["mantenimientos"], parser[4], all_df)
     #cleanse_usuarios(all_df["usuarios"], results["usuarios"], parser[5], all_df)
-    #cleanse_juegos(all_df['juegos'], results["juegos"], parser[6], all_df)
+    cleanse_juegos(all_df['juegos'], results["juegos"], parser[6], all_df)
     #cleanse_meteo(df_meteo)

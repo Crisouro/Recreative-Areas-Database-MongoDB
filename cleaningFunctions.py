@@ -69,7 +69,7 @@ def format_mamntenimiento_ID(id_column) -> dict:
     return id_column
 
 def format_spacial_coordenates_area(df_data: dict) -> dict:
-   """This function transforms the UTM coordinate columns into a single longitude-latitude column"""
+   """This function transforms the latitude and longitude into a single column"""
    #Unpacking needed data
    x_column= df_data['LONGITUD']
    y_column = df_data['LATITUD']
@@ -82,6 +82,28 @@ def format_spacial_coordenates_area(df_data: dict) -> dict:
        new_coord.append([x, y])
 
    #Seting up the new dataset structure
-   df_data['COORD_GIS'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84']*len(df_data)
-   df_data.drop(columns=['COORD_GIS_Y', 'COORD_GIS_X', 'LATITUD', 'LONGITUD'], inplace=True)
+   df_data['COORD_GIS_X'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84']*len(df_data)
+   df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
+   df_data.drop(columns=['COORD_GIS_Y', 'LATITUD', 'LONGITUD'], inplace=True)
    return df_data
+
+def format_spacial_coordenates_juego(df_data: dict) -> dict:
+    """This function transforms the UTM coordinate columns into a single longitude-latitude column"""
+    x_column = df_data['COORD_GIS_X']
+    y_column = df_data['COORD_GIS_Y']
+    new_coord = []
+    # UTM configuration to Madrid area
+    transformer = pyproj.Transformer.from_crs("EPSG:25830", "EPSG:4326", always_xy=True)
+
+    for i in range(len(x_column)):
+        # data transformation into a longitude-latitude pair.
+        x = float(x_column[i])
+        y = float(y_column[i])
+        x,y = transformer.transform(x, y)
+        new_coord.append([x,y])
+
+    # Seting up the new dataset structure
+    df_data['COORD_GIS_X'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84'] * len(df_data)
+    df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
+    df_data.drop(columns=['COORD_GIS_Y'], inplace=True)
+    return df_data
