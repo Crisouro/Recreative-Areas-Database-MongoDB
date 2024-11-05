@@ -20,13 +20,14 @@ def general_format(df):
         print(c, ": ", df[c].unique())
 
 def date_unifier(str):
-    output_pattern = "%d-%m-%Y"
+    output_pattern = "%Y-%m-%dT%H:%M:%S.%fZ"
     
     if (str == "fecha_incorrecta"):
         return None
 
     possible_patterns = [
         "%d/%m/%Y",   # D/M/Y
+        "%d-%m-%Y",
         "%m-%d-%Y",   # M-D-Y
         "%Y-%m-%d",   # Y-M-D
         "%d %m %Y",   # D M Y
@@ -63,10 +64,9 @@ def typo_format(df, c_format):
                 def aplicar_regex(x, regex):
                     if pd.isnull(x):  
                         return x
-                    if not re.fullmatch(regex, x):
+                    else:
                         return date_unifier(x)
-                    return x
-                
+                    
                 df[c] = df[c].apply(lambda x: aplicar_regex(x, regex))
 
 
