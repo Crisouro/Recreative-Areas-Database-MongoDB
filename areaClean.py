@@ -37,9 +37,11 @@ if __name__ == "__main__":
     
     print("\n[area][CLEAN_NULLS]")
     area = cf.clean_null("ID", area, results['n_columns'], parser[0]['null_values'], all_df)
-    
+
     #SAVE
     area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
+
+
 
 
 
