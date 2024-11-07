@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     #FINAL FORMATTING
     fr.spacial_coordenates_area(area)
-    
+
     #SAVE
     area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
 
