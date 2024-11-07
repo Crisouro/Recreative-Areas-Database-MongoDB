@@ -124,11 +124,14 @@ def spacial_coordenates_juego(df_data: dict):
     transformer = pyproj.Transformer.from_crs("EPSG:25830", "EPSG:4326", always_xy=True)
 
     for i in range(len(x_column)):
+        if type(x_column[i]) != str and type(y_column[i]) != str:
         # data transformation into a longitude-latitude pair.
-        x = float(x_column[i])
-        y = float(y_column[i])
-        x,y = transformer.transform(x, y)
-        new_coord.append([x,y])
+            x = float(x_column[i])
+            y = float(y_column[i])
+            x,y = transformer.transform(x, y)
+            new_coord.append([x,y])
+        else:
+            new_coord.append(str(df_data.at[i, "ID"]) + "COOR_GIS-desconocidas")
 
     # Seting up the new dataset structure
     df_data.drop(columns=['SISTEMA_COORD'], inplace=True)
