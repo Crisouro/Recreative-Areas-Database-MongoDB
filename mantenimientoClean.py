@@ -28,6 +28,7 @@ if __name__ == "__main__":
     fr.general_format(mantenimiento)
     fr.date_typo_format(mantenimiento, "FECHA_INTERVENCION")
     mantenimiento["ID"] = fr.format_mantenimiento_ID(mantenimiento["ID"])
+    mantenimiento["ID"] = mantenimiento["ID"].apply(lambda x: x.strip())
 
     #GENERAL ANALYSIS
     results = general_analysis(mantenimiento, ["ID"])
