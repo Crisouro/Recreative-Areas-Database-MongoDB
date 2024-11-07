@@ -29,7 +29,7 @@ def tiempoResolucion(incidencias, mantenimiento) -> dict:
             ini_date = datetime.strptime(incidencias.at[i, "FECHA_REPORTE"], "%Y-%m-%dT%H:%M:%S.%fZ")
             if not dates.empty:
                 end_date = datetime.strptime(max(dates), "%Y-%m-%dT%H:%M:%S.%fZ")
-                incidencias.at[i, "TIEMPO_RESOLUCION"] = (abs(end_date - ini_date))
+                incidencias.at[i, "TIEMPO_RESOLUCION"] = (abs(end_date - ini_date).days)
             else:
                 incidencias.at[i, "TIEMPO_RESOLUCION"] = str(incidencias.at[i, "ID"]) + "-TIEMPO_RESOLUCION-desconocido"
         else:
