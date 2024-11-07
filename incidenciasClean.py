@@ -27,6 +27,7 @@ if __name__ == "__main__":
     #FORMATTING
     fr.general_format(incidencias)
     fr.date_typo_format(incidencias, "FECHA_REPORTE")
+    incidencias.rename(columns= {'MantenimeintoID' : 'MantenimientoID'}, inplace= True)
 
     #GENERAL ANALYSIS
     results = general_analysis(incidencias, ["ID"])
@@ -38,6 +39,9 @@ if __name__ == "__main__":
     
     #NEW ATTRIBUTES
     new.nivelEscalamiento(incidencias)
+    mantenimientos = pd.read_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), sep=',')
+    new.tiempoResolucion(incidencias, mantenimientos)
+
 
     #SAVE
     incidencias.to_csv(os.path.join("cleaned", "IncidenciasLimpio.csv"), header=True, sep=',', index=False)

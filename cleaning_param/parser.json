@@ -51,11 +51,11 @@
     {"dataset": "mantenimiento",
      "null_values": {
          "search_values":  {
-           "Tipo": {},
+           "Tipo": {"incidencias":  ["MANTENIMIENTO_ID"]},
            "Comentarios": {}
          },
          "data_values": {
-           "Tipo": {},
+           "Tipo": {"incidencias":  ["ID"]},
            "Comentarios": {}
          }
        },
@@ -104,7 +104,7 @@
             "COD_POSTAL": { },
             "DIRECCION_AUX": { },
             "NDP": { },
-            "FECHA_INSTALACION": { "encuestas": ["ID"]},
+            "FECHA_INSTALACION": {},
             "CODIGO_INTERNO": { },
             "MODELO": {},
             "ACCESIBLE": {}

@@ -24,7 +24,7 @@ def delete_duplicates(df, id, value):
     df.drop(to_remove[1:], inplace=True)
 
 
-def null_assign(column: str, id_column:str, data: dict, parser: dict, support:dict, df: dict) -> dict:
+def null_assign(column: str, id_column: str, data, parser: dict, support: dict, df) -> dict:
     """Function that implements the assignation of null values"""
     null_elems = data[column].isnull().values.tolist()
     for i in range(len(null_elems)):
@@ -35,7 +35,6 @@ def null_assign(column: str, id_column:str, data: dict, parser: dict, support:di
                 if not assigned:
                     for elem in parser[domain]:
                         candidates = pd.DataFrame()
-
                         if elem in data:
                             # CASO 1: el dataset origen y destino comparten columna de búsqueda.
                             search_key = data[[elem]].iat[i,0]

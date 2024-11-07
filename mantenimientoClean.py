@@ -27,7 +27,7 @@ if __name__ == "__main__":
     #FORMATTING
     fr.general_format(mantenimiento)
     fr.date_typo_format(mantenimiento, "FECHA_INTERVENCION")
-    mantenimiento["ID"] = cf.format_mantenimiento_ID(mantenimiento["ID"]) #CAMBIAR A FORMATTING PLS
+    mantenimiento["ID"] = fr.format_mantenimiento_ID(mantenimiento["ID"])
 
     #GENERAL ANALYSIS
     results = general_analysis(mantenimiento, ["ID"])
@@ -36,7 +36,6 @@ if __name__ == "__main__":
     cf.clean_duplicates("incidencias", mantenimiento, results["unique_id"], parser[4]["unique_id"])
     print("\n[incidencias][CLEAN_NULLS]")
     mantenimiento = cf.clean_null("ID", mantenimiento, results['n_columns'], parser[4]['null_values'], all_df)
-    
 
     #SAVE
     mantenimiento.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)

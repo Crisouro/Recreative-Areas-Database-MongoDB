@@ -5,13 +5,12 @@ import pyproj
 import strategy as str
 import re
 
-def clean_null(id_column:str, df_data: dict, null_columns: list, parser: dict, full_df):
+def clean_null(id_column:str, df_data, null_columns: list, parser: dict, full_df):
     """Algorithm for cleaning the null values of a column"""
     result = {}
     for column in null_columns:
         print(column, "detectado...")
-        #if column == "FECHA_INSTALACION":
-        print(parser)
+        #if column == "NUM_VIA":
         df_data[column] = str.null_assign(column, id_column, df_data, parser["search_values"][column], parser["data_values"][column], full_df)
     return df_data
 
@@ -58,61 +57,6 @@ def clean_duplicates(dataset, df, unique: dict, parser: dict):
 
             pass #Delete duplicates.
 
-def format_mamntenimiento_ID(id_column) -> dict:
-    new_id = []
-    for i in range(len(id_column)):
-        item = id_column[i].strip()
-        num, letters = item.split(",00")
-        new_id.append(f"{letters}{num.zfill(6)}")
-    return new_id
 
-def format_spacial_coordenates_area(df_data: dict) -> dict:
-   """This function transforms the latitude and longitude into a single column"""
-   #Unpacking needed data
-   x_column= df_data['LONGITUD']
-   y_column = df_data['LATITUD']
-   new_coord =[]
 
-   for i in range(len(x_column)):
-       #data transformation into a longitude-latitude pair.
-       x = float(x_column[i])
-       y = float(y_column[i])
-       new_coord.append([x, y])
 
-   #Seting up the new dataset structure
-   df_data['COORD_GIS_X'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84']*len(df_data)
-   df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
-   df_data.drop(columns=['COORD_GIS_Y', 'LATITUD', 'LONGITUD'], inplace=True)
-   return df_data
-
-def format_spacial_coordenates_juego(df_data: dict) -> dict:
-    """This function transforms the UTM coordinate columns into a single longitude-latitude column"""
-    x_column = df_data['COORD_GIS_X']
-    y_column = df_data['COORD_GIS_Y']
-    new_coord = []
-    # UTM configuration to Madrid area
-    transformer = pyproj.Transformer.from_crs("EPSG:25830", "EPSG:4326", always_xy=True)
-
-    for i in range(len(x_column)):
-        # data transformation into a longitude-latitude pair.
-        x = float(x_column[i])
-        y = float(y_column[i])
-        x,y = transformer.transform(x, y)
-        new_coord.append([x,y])
-
-    # Seting up the new dataset structure
-    df_data['COORD_GIS_X'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84'] * len(df_data)
-    df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
-    df_data.drop(columns=['COORD_GIS_Y'], inplace=True)
-    return df_data
-def resolution_time(df_data: dict, df_mantenimiento) -> dict:
-    for item in df_data:
-        print(item)
-        # Step 1: find Manteinance associated to an Incidence
-        search_key = item['MantenimeintoID']
-        candidates = df_mantenimiento.query(f" 'ID' == {search_key}")
-        #Step 2: use the latest manteinance date as close date
-        print(candidates['FECHA_INTERVENCION'].max())
-        print(candidates['FECHA_INTERVENCION'].min())
-        #Stept 3: calculation of solving time
-    #return df_data

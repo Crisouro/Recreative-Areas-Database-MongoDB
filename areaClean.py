@@ -27,7 +27,8 @@ if __name__ == "__main__":
     #FORMATTING
     fr.general_format(area)
     fr.date_typo_format(area, "FECHA_INSTALACION")
-    area = cf.format_spacial_coordenates_area(area) #MOVER A FORMATTING PORFA
+    fr.fix_accent_street_name(area)
+    fr.fix_accent_street_name(area, "DIRECCION_AUX")
 
     #GENERAL ANALYSIS
     results = general_analysis(area, ["ID"])
@@ -37,6 +38,9 @@ if __name__ == "__main__":
     
     print("\n[area][CLEAN_NULLS]")
     area = cf.clean_null("ID", area, results['n_columns'], parser[0]['null_values'], all_df)
+
+    #FINAL FORMATTING
+    fr.spacial_coordenates_area(area)
     
     #SAVE
     area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)

@@ -2,6 +2,7 @@ import unicodedata
 import re
 from datetime import datetime
 import pandas as pd
+import pyproj
 
 def general_format(df):
     """Function responsible for normalizing string data."""
@@ -80,3 +81,57 @@ def remove_dup_prefix(email):
     return email
 
 
+def format_mantenimiento_ID(id_column) -> dict:
+    new_id = []
+    for i in range(len(id_column)):
+        item = id_column[i].strip()
+        num, letters = item.split(",00")
+        new_id.append(f"{letters}{num.zfill(6)}")
+    return new_id
+
+def fix_accent_street_name(data, column= "NOM_VIA"):
+    for i in range(len(data)):
+        dir = data.iloc[i][column]
+
+        if type(dir) == str and "'" in dir:
+            data.at[i, column] = dir.replace("'", "")
+
+def spacial_coordenates_area(df_data: dict):
+   """This function transforms the latitude and longitude into a single column"""
+   #Unpacking needed data
+   x_column= df_data['LONGITUD']
+   y_column = df_data['LATITUD']
+   new_coord =[]
+
+   for i in range(len(x_column)):
+       #data transformation into a longitude-latitude pair.
+       x = float(x_column[i])
+       y = float(y_column[i])
+       new_coord.append([x, y])
+
+   #Seting up the new dataset structure
+   df_data.drop(columns=['SISTEMA_COORD'], inplace=True)
+   df_data['COORD_GIS'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84']*len(df_data)
+   #df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
+   #df_data.drop(columns=['COORD_GIS_Y', 'LATITUD', 'LONGITUD'], inplace=True)
+
+def spacial_coordenates_juego(df_data: dict):
+    """This function transforms the UTM coordinate columns into a single longitude-latitude column"""
+    x_column = df_data['COORD_GIS_X']
+    y_column = df_data['COORD_GIS_Y']
+    new_coord = []
+    # UTM configuration to Madrid area
+    transformer = pyproj.Transformer.from_crs("EPSG:25830", "EPSG:4326", always_xy=True)
+
+    for i in range(len(x_column)):
+        # data transformation into a longitude-latitude pair.
+        x = float(x_column[i])
+        y = float(y_column[i])
+        x,y = transformer.transform(x, y)
+        new_coord.append([x,y])
+
+    # Seting up the new dataset structure
+    df_data.drop(columns=['SISTEMA_COORD'], inplace=True)
+    df_data['COORD_GIS'], df_data['SISTEMA_COORD'] = new_coord, ['WGS84'] * len(df_data)
+    #df_data.rename(columns={"COORD_GIS_X": "COORD_GIS"})
+    #df_data.drop(columns=['COORD_GIS_Y'], inplace=True)
