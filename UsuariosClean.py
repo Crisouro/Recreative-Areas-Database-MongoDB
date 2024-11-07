@@ -24,20 +24,39 @@ if __name__ == "__main__":
 
     # FORMATTING
     fr.general_format(usuarios)
-    usuarios["TELEFONO"] = usuarios["TELEFONO"].apply(fr.format_phone_number)
+    usuarios["TELEFONO"] = usuarios["TELEFONO"].apply(fr.format_phone_number).astype(str)
+
     usuarios["EMAIL"] = usuarios["EMAIL"].apply(fr.remove_dup_prefix)
     usuarios.drop_duplicates(subset=["NIF", "EMAIL", "TELEFONO"])
 
     # GENERAL ANALYSIS
     results = general_analysis(usuarios, ["NIF"])
 
-
-
     print("\n[usuarios][CLEAN_NULLS]")
-    usuarios = cf.clean_null("NIF", usuarios, results['n_columns'], parser[5]['null_values'], all_df) #HACER QUE FUNCIONE
+    usuarios = cf.clean_null("NIF", usuarios, results['n_columns'], parser[5]['null_values'], all_df)
 
+    #UNIQUE NIF
+    print(len(usuarios["NIF"].unique()))
+    new_usuarios = pd.DataFrame()
+    
+    for nif in usuarios["NIF"].unique():
+        df_nif = usuarios[usuarios["NIF"] == nif]
+        row = pd.Series()
 
+        row["NIF"] = nif
+        row["NOMBRE"] = ""
+        row["EMAIL"] = []
+        row["TELEFONO"] = []
+        for index, r in df_nif.iterrows():
+            row["NOMBRE"] = r["NOMBRE"]
+            if r["EMAIL"] not in row["EMAIL"]:
+                row["EMAIL"].append(r["EMAIL"])
 
+            if r["TELEFONO"] not in row["TELEFONO"]:
+                row["TELEFONO"].append(r["TELEFONO"])
 
+        new_usuarios = pd.concat([new_usuarios, row.to_frame().T], ignore_index=True)
+    
+    print(new_usuarios.head())
     # SAVE
-    usuarios.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
+    new_usuarios.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)
