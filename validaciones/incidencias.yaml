@@ -3,7 +3,7 @@ db.incidencias.createIndex({ID:1}, {unique: 1})
 
 VAL = {
     bsonType: "object",
-    description: "Documento que describe a los incidentes",
+    description: "Documento que describe a las incidencias",
     required: ["ID", "TIPO_INCIDENCIA", "FECHA_REPORTE", "ESTADO", "NIVEL_ESCALAMIENTO", "TIEMPO_RESOLUCION"],
     properties: {
         ID: {
