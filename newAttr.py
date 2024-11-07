@@ -17,7 +17,7 @@ def indicadorExposicion(df):
 def tiempoResolucion(incidencias, mantenimiento) -> dict:
     """This function generates tiempoResolucion for each incidence"""
     #Manteinance IDs formetting
-    man_list = incidencias["MantenimientoID"].str.strip("[]").str.replace("mnt-", "").str.split(", ")
+    man_list = incidencias["MANTENIMIENTO_ID"].str.strip("[]").str.replace("mnt-", "").str.split(", ")
     print(man_list, len(man_list), type(man_list))
 
     for i in range(len(incidencias)):

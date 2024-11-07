@@ -27,7 +27,7 @@ if __name__ == "__main__":
     #FORMATTING
     fr.general_format(incidencias)
     fr.date_typo_format(incidencias, "FECHA_REPORTE")
-    incidencias.rename(columns= {'MantenimeintoID' : 'MantenimientoID'}, inplace= True)
+    incidencias.rename(columns= {'MANTENIMIENTO_ID' : 'MANTENIMIENTO_ID'}, inplace= True)
 
     #GENERAL ANALYSIS
     results = general_analysis(incidencias, ["ID"])
