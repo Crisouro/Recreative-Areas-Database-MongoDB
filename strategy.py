@@ -23,6 +23,36 @@ def delete_duplicates(df, id, value):
 
     df.drop(to_remove[1:], inplace=True)
 
+def assign_aux_dir(data): #ARREGLAR
+    """Function that assigns auxiliar address to main adress in case no data is assigned in any field"""
+    null_via = data["TIPO_VIA"].isnull().values.tolist()
+    null_nom = data["NOM_VIA"].isnull().values.tolist()
+    null_num = data["NUM_VIA"].isnull().values.tolist()
+    null_aux = data["DIRECCION_AUX"].isnull().values.tolist()
+
+    tipo_via = data["TIPO_VIA"].unique().tolist()
+    tipo_via = [x for x in tipo_via if not (isinstance(x, float))]
+    tipo_via += ["PZ", "AVDA", "CTRA", "AUTOV", "Pza", "C .", "Pq ."]
+    tipos_via_pattern = "|".join(tipo_via)
+
+    pattern = rf'(?:(?P<TIPO_VIA>{tipos_via_pattern})\s*(?P<NOM_VIA>.*?)),?\s*(?P<NUM_VIA>\d{{1,5}})?'
+    #pattern = rf'(?P<TIPO_VIA>{tipos_via_pattern}[\w\s\-\.]*)[, ]*(?P<NOM_VIA>[\w\s\-\.]+)[, ]*(?P<NUM_VIA>\d{1,5}[A-Z]*)'
+    pattern_per_row = data['DIRECCION_AUX'].str.extract(pattern)
+    #print(pattern_per_row)
+
+    for i in range(len(data)):
+        if (not null_aux[i]) and null_via[i] and null_num[i] and null_nom[i]:
+            #print("No address detected in item at position", i+1)
+            print(pattern_per_row.loc[i])
+
+            #data[['TIPO_VIA', 'NOM_VIA', 'NUM_VIA']] = data['DIRECCION_AUX'].str.extract(pattern)
+
+            #df['TIPO_VIA'] = df['TIPO_VIA'].fillna(str(data["ID"]) + "TIPO_VIA-desconocido")
+
+            #(df[['TIPO_VIA', 'NOM_VIA', 'NUM_VIA']])
+
+                #aux_add = df_data.at[i, "DIRECCION_AUX"]
+    #df_data['aux_dir'] = df_data['aux_dir'].apply()
 
 def null_assign(column: str, id_column: str, data, parser: dict, support: dict, df) -> dict:
     """Function that implements the assignation of null values"""

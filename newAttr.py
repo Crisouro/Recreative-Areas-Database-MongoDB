@@ -35,12 +35,19 @@ def tiempoResolucion(incidencias, mantenimiento) -> dict:
         else:
             incidencias.at[i, "TIEMPO_RESOLUCION"] = str(incidencias.at[i, "ID"]) + "-ESTADO-abierta"
 
-def capacidadMax(df):
-    "Function that generates capacidadMax value for df"
-    pass
 
 def desgasteAcumulado(juegos, mantenimientos):
-    """Function that generate the atribute Desgaste Acumulado (int) for Juegos"""
+    """Function that generates the attribute Desgaste Acumulado (int) for Juegos"""
     #Desgaste Acumulado will correspond to the number of performed manteinance of each game
     for i in range(len(juegos)):
         juegos.at[i, "DESGASTE_ACUMULADO"] = len(mantenimientos.loc[mantenimientos["JuegoID"] == juegos.at[i, "ID"]])
+
+def ultimaFechaMantenimiento(juegos, mantenimientos):
+    """Function that generates the most recent maintenance date for a game"""
+    for i in range(len(juegos)):
+        dates = mantenimientos.loc[mantenimientos["JuegoID"] == juegos.at[i, "ID"], "FECHA_INTERVENCION"]
+        if not dates.empty:
+            juegos.at[i, "DESGASTE_ACUMULADO"] = max(dates)
+        else:
+            juegos.at[i, "DESGASTE_ACUMULADO"] = str(juegos.at[i, "ID"]) + "-SIN-MANTENIMIENTOS-conocidos"
+

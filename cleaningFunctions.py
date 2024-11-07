@@ -8,6 +8,8 @@ import re
 def clean_null(id_column:str, df_data, null_columns: list, parser: dict, full_df):
     """Algorithm for cleaning the null values of a column"""
     result = {}
+    #if "TIPO_VIA" in null_columns and "NOM_VIA" in null_columns and "NUM_VIA" in null_columns:
+        #str.assign_aux_dir(df_data)
     for column in null_columns:
         print(column, "detectado...")
         #if column == "NUM_VIA":

@@ -46,7 +46,9 @@ if __name__ == "__main__":
     
     #NEW ATTR
     new.indicadorExposicion(juegos)
-    new.desgasteAcumulado(juegos, all_df["mantenimientos"])
+    mantenimientos = pd.read_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), sep=',')
+    new.desgasteAcumulado(juegos, mantenimientos)
+    new.ultimaFechaMantenimiento(juegos, mantenimientos)
 
     #FINAL FORMATTING
     fr.spacial_coordenates_juego(juegos)
