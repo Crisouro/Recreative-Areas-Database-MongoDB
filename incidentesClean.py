@@ -35,6 +35,9 @@ if __name__ == "__main__":
     cf.clean_duplicates("incidentes", incidentes, results["unique_id"], parser[3]["unique_id"])
     print("\n[incidentes][CLEAN_NULLS]")
     incidentes = cf.clean_null("ID", incidentes, results['n_columns'], parser[3]['null_values'], all_df)
+    
+    incidentes["ID"] = incidentes["ID"].astype(str)
+    incidentes["AreaRecreativaID"] = incidentes["AreaRecreativaID"].astype(str)
 
     #SAVE
     incidentes.to_csv(os.path.join("cleaned", "IncidentesLimpio.csv"), header=True, sep=',', index=False)
