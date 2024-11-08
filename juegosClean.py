@@ -26,6 +26,7 @@ def new_attributes(juegos):
 
 def final_formatting(juegos):
     fr.spacial_coordenates_juego(juegos)
+    fr.accesible_bool(juegos)
 
 def save(juegos):
     juegos.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
