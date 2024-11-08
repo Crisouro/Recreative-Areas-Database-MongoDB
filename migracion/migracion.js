@@ -13,7 +13,7 @@ db.Areas.aggregate([
             from: "IncidentesSeguridad",
             localField: "ID",
             foreignField: "AreaRecreativaID",
-            as: "incidentes"
+            as: "ref_incidentes"
         }
     },
     {
@@ -21,7 +21,7 @@ db.Areas.aggregate([
             from: "RegistroClima",
             localField: "COD_POSTAL",
             foreignField: "COD_POSTAL",
-            as: "clima"
+            as: "ref_clima"
         }
     },
     {
@@ -29,47 +29,47 @@ db.Areas.aggregate([
             from: "EncuestasSatisfaccion",
             localField: "ID",
             foreignField: "AreaRecreativaID",
-            as: "encuestas"
+            as: "ref_encuestas"
         }
     },
     {
         $addFields: {
-            juegos: {
+            JUEGOS: {
                 $map: {
-                    input: "$juegos",
+                    input: "$ref_juegos",
                     as: "juego",
                     in: {
-                        id: "$$juego.ID"
+                        _id: "$$juego._id"
                     }
                 }
             },
-            incidentes: {
+            INCIDENTES_SEGURIDAD: {
                 $map: {
-                    input: "$incidentes",
+                    input: "$ref_incidentes",
                     as: "incidente",
                     in: {
-                        id: "$$incidente.ID",
-                        tipoIncidente: "$$incidente.TIPO_INCIDENTE",
-                        gravedad: "$$incidente.GRAVEDAD",
-                        fechaReporte: "$$incidente.FECHA_REPORTE"
+                        _id: "$$incidente._id",
+                        TIPO_INCIDENTE: "$$incidente.TIPO_INCIDENTE",
+                        GRAVEDAD: "$$incidente.GRAVEDAD",
+                        FECHA_REPORTE: "$$incidente.FECHA_REPORTE"
                     }
                 }
             },
-            clima: {
+            CLIMA: {
                 $map: {
-                    input: "$clima",
-                    as: "climaItem",
+                    input: "$ref_clima",
+                    as: "clima",
                     in: {
-                        id: "$$climaItem.ID" // ID?
+                        _id: "$$clima._id"
                     }
                 }
             },
-            encuestas: {
+            ENCUESTAS: {
                 $map: {
                     input: "$encuestas",
                     as: "encuesta",
                     in: {
-                        id: "$$encuesta.ID"
+                        _id: "$$encuesta._id"
                     }
                 }
             }
@@ -77,63 +77,77 @@ db.Areas.aggregate([
     },
     {
         $project: {
-            nombre: "$ID",
-            coordenadasGPS: {
-                COORD_GIS_X: "$COORD_GIS_X",
-                COORD_GIS_Y: "$COORD_GIS_Y",
-                SISTEMA_COORD: "$SISTEMA_COORD",
-                LATITUD: "$LATITUD",
-                LONGITUD: "$LONGITUD"
+            NOMBRE: "$ID",
+            UBICACION: {
+                COD_BARRIO: 1,
+                BARRIO: 1,
+                COD_DISTRITO: 1, 
+                DISTRITO: 1,
+                TIPO_VIA: 1,
+                NOM_VIA: 1, 
+                NUM_VIA: 1,
+                COD_POSTAL: 1,
+                DIRECCION_AUX: 1,
+                COORD_GIS: 1,
+                SISTEMA_COORD: 1,
+                NDP: 1
             },
-            barrio: "$BARRIO",
-            distrito: "$DISTRITO",
-            fechaInstalacion: "$FECHA_INSTALACION",
-            estadoOperativo: "$ESTADO",
-            capacidadMax: "$CAPACIDAD_MAX",
-            cantidadJuegosPorTipo: "$CANTIDAD_JUEGOS_TIPO",
-            juegos: 1, 
-            incidentes: 1, 
-            clima: 1, 
-            encuestas: 1 
+            FECHA_INSTALACION: 1,
+            ESTADO_OPERATIVO: "$ESTADO",
+            CAPACIDAD_MAX: 1,
+            CANTIDAD_JUEGOS_TIPO: 1,
+            JUEGOS: 1, 
+            INCIDENTES_SEGURIDAD: 1, 
+            CLIMA: 1, 
+            ENCUESTAS: 1 
         }
     },
     {
-        $out: {db:"AreaRecreativa", coll: "AreaAgregado"} //Change DB
+        $out: {db:"entregable", coll: "area-agregado"} //Change DB
     }
 ])
 
 
 /*INCIDENCIA*/
-db.Incidencia.aggregate([
-    $lookup: {
-        from: "Usuario",
-        localField: "UsuarioID",
-        foreignField: "NIF",
-        as: "usuarios"
+
+db.incidencias.aggregate([
+    {
+        $lookup: {
+            from: "usuarios",
+            localField: "UsuarioID",
+            foreignField: "NIF",
+            as: "ref_usuarios"
+        }
     },
-    $addFields: {
-        usuarios: {
-            input: "$usuarios",
-            as: "usuario",
-            in: {
-                NIF: "$$.usuario.NIF",
-                nombre: "$$.usuario.NOMBRE",
-                email: "$$.usuario.EMAIL",
-                telefono: "$$.usuario.TELEFONO"
+    {
+        $addFields: {
+            usuarios: {
+                $map: {
+                    input: "$ref_usuarios",
+                    as: "usuario",
+                    in: {
+                        _id: "$$usuario._id",
+                        nombre: "$$usuario.NOMBRE",
+                        email: "$$usuario.EMAIL",
+                        telefono: "$$usuario.TELEFONO"
+                    }
+                }
             }
         }
     },
-    $project: {
-        id: "$ID",
-        tipoIncidencia: "$TIPO_INCIDENCIA", 
-        fechaReporte: "$FECHA_REPORTE",
-        estado: "$ESTADO",
-        tiempoResolucion: "$TIEMPO_RESOLUCION",
-        nivelEscalamiento: "$NIVEL_ESCALAMIENTO",
-        usuarios: 1
+    {
+        $project: {
+            ID: 1,
+            TIPO_INCIDENCIA: 1, 
+            FECHA_REPORTE: 1,
+            estado: 1,
+            TIEMPO_RESOLUCION: 1,
+            NIVEL_ESCALAMIENTO: 1,
+            usuarios: 1
+        }
     },
     {
-        $out: {db:"AreaRecreativa", coll: "IncidenciaAgregado"} //Change DB
+        $out: {db:"entregable", coll: "incidencias-agregado"} 
     }
 ])
 
@@ -141,46 +155,55 @@ db.Incidencia.aggregate([
 db.Juegos.aggregate([
     {
         $lookup: {
-            from: "Mantenimiento",
+            from: "mantenimiento",
             localField: "ID",
             foreignField: "JuegoID",
-            as: "mantenimiento"
+            as: "ref_mantenimiento"
         }
     },
     {
         $unwind: {
-            path: "$mantenimiento",
+            path: "$ref_mantenimiento",
             preserveNullAndEmptyArrays: true 
         }
     },
     {
         $lookup: {
-            from: "Incidencias",
+            from: "incidencias",
             localField: "mantenimiento.ID", 
-            foreignField: "MantenimientoID",
-            as: "incidencias"
+            foreignField: "MANTENIMIENTO_ID",
+            as: "ref_incidencias"
         }
     },
     {
         $addFields: {
-            mantenimiento: {
+            MANTENIMIENTO: {
                 $map: {
-                    input: ["$mantenimiento"], 
+                    input: ["$ref_mantenimiento"], 
                     as: "mnt",
                     in: {
-                        id: "$$mnt.ID"
+                        _id: "$$mnt._id"
                     }
                 }
             },
-            incidencias: {
+            INCIDENCIAS: {
                 $map: {
-                    input: "$incidencias", 
+                    input: "$ref_incidencias", 
                     as: "incidencia",
                     in: {
-                        id: "$$incidencia.ID",
-                        tipoIncidencia: "$$incidencia.TIPO_INCIDENCIA",
-                        fechaReporte: "$$incidencia.FECHA_REPORTE",
-                        estado: "$$incidencia.ESTADO"
+                        _id: "$$incidencia._id",
+                        TIPO_INCIDDENCIA: "$$incidencia.TIPO_INCIDENCIA",
+                        FECHA_REPORTE: "$$incidencia.FECHA_REPORTE",
+                        ESTADO: "$$incidencia.ESTADO"
+                    }
+                }
+            },
+            TIEMPO_RESOLUCION: {
+                $map: {
+                    input: "$ref_incidencias",
+                    as: "incidencia",
+                    in: {
+                        INCIDENCIAS: "$$.incidencia.TIEMPO_RESOLUCION"
                     }
                 }
             }
@@ -188,22 +211,22 @@ db.Juegos.aggregate([
     },
     {
         $project: {
-            nombre: "$DESC_CLASIFICACION",
-            modelo: "$MODELO",
-            estadoOperativo: "$ESTADO",
-            accesibilidad: "$ACCESIBLE",
-            fechaInstalacion: "$FECHA_INSTALACION",
-            tipo: "$tipo_juego",
-            desgasteAcumulado: "$DESGASTE_ACUMULADO",
-            indicadorExposicion: "$INDICADOR_EXPOSICION",
-            ultimaFechaMantenimiento: "$ULTIMA_FECHA_MANTENIMIENTO",
-            tiempoResolucion: "$TIEMPO_RESOLUCION",
-            mantenimiento: { $arrayElemAt: ["$mantenimiento", 0] },
-            incidencias: 1
+            ID: 1,
+            NOMBRE: "$DESC_CLASIFICACION",
+            MODELO: 1,
+            ESTADO_OPERATIVO: "$ESTADO",
+            ACCESIBILIDAD: "$ACCESIBLE",
+            FECHA_INSTALACION: 1,
+            TIPO: "$tipo_juego",
+            DESGASTE_ACUMULADO: 1,
+            INDICADOR_EXPOSICION: 1,
+            ULTIMA_FECHA_MANTENIMIENTO: "$ULTIMA_FECHA_MANTENIMIENTO",
+            TIEMPO_RESOLUCION: "$TIEMPO_RESOLUCION",
+            MANTENIMIENTO: { $arrayElemAt: ["$mantenimiento", 0] },
+            INCIDENCIAS: 1
         }
     },
     {
-        $out: {db:"AreaRecreativa", coll: "JuegosAgregado"} //Change DB
+        $out: {db:"entregable", coll: "entregable-agregado"} 
     }
 ])
-
