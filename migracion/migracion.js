@@ -1,16 +1,16 @@
 /*AREA RECREATIVA_CLIMA*/
-db.Areas.aggregate([
+db.area.aggregate([
     {
         $lookup: {
-            from: "Juegos",
+            from: "juegos",
             localField: "NDP",
             foreignField: "NDP",
-            as: "juegos"
+            as: "ref_juegos"
         }
     },
     {
         $lookup: {
-            from: "IncidentesSeguridad",
+            from: "incidentes",
             localField: "ID",
             foreignField: "AreaRecreativaID",
             as: "ref_incidentes"
@@ -18,10 +18,10 @@ db.Areas.aggregate([
     },
     {
         $lookup: {
-            from: "RegistroClima",
+            from: "meteo",
             localField: "COD_POSTAL",
             foreignField: "COD_POSTAL",
-            as: "ref_clima"
+            as: "ref_meteo"
         }
     },
     {
@@ -57,10 +57,10 @@ db.Areas.aggregate([
             },
             CLIMA: {
                 $map: {
-                    input: "$ref_clima",
-                    as: "clima",
+                    input: "$ref_meteo",
+                    as: "meteo",
                     in: {
-                        _id: "$$clima._id"
+                        _id: "$$meteo._id"
                     }
                 }
             },
@@ -93,6 +93,7 @@ db.Areas.aggregate([
                 NDP: 1
             },
             FECHA_INSTALACION: 1,
+            ESTADO_GLOBAL_AREA: "$ESTADO_GLOBAL",
             ESTADO_OPERATIVO: "$ESTADO",
             CAPACIDAD_MAX: 1,
             CANTIDAD_JUEGOS_TIPO: 1,
@@ -151,7 +152,7 @@ db.incidencias.aggregate([
 ])
 
 /*JUEGO*/
-db.Juegos.aggregate([
+db.juegos.aggregate([
     {
         $lookup: {
             from: "mantenimiento",
@@ -161,27 +162,24 @@ db.Juegos.aggregate([
         }
     },
     {
-        $unwind: {
-            path: "$ref_mantenimiento",
-            preserveNullAndEmptyArrays: true 
-        }
-    },
-    {
         $lookup: {
             from: "incidencias",
-            localField: "mantenimiento.ID", 
+            localField: "ref_mantenimiento.ID", // Corregido el campo de referencia
             foreignField: "MANTENIMIENTO_ID",
             as: "ref_incidencias"
         }
     },
     {
         $addFields: {
+            // Si ref_mantenimiento tiene varios elementos, los mantenemos en un arreglo
             MANTENIMIENTO: {
                 $map: {
-                    input: ["$ref_mantenimiento"], 
+                    input: "$ref_mantenimiento", 
                     as: "mnt",
                     in: {
-                        _id: "$$mnt._id"
+                        _id: "$$mnt._id",
+                        TIPO_MANTENIMIENTO: "$$mnt.TIPO_MANTENIMIENTO", // Aquí agregas los campos que necesites de la colección de mantenimiento
+                        FECHA_MANTENIMIENTO: "$$mnt.FECHA_MANTENIMIENTO"  // Añadir cualquier otro campo necesario
                     }
                 }
             },
@@ -201,9 +199,7 @@ db.Juegos.aggregate([
                 $map: {
                     input: "$ref_incidencias",
                     as: "incidencia",
-                    in: {
-                        INCIDENCIAS: "$$.incidencia.TIEMPO_RESOLUCION"
-                    }
+                    in: "$$incidencia.TIEMPO_RESOLUCION"
                 }
             }
         }
@@ -219,12 +215,15 @@ db.Juegos.aggregate([
             DESGASTE_ACUMULADO: 1,
             INDICADOR_EXPOSICION: 1,
             ULTIMA_FECHA_MANTENIMIENTO: "$ULTIMA_FECHA_MANTENIMIENTO",
-            TIEMPO_RESOLUCION: "$TIEMPO_RESOLUCION",
-            MANTENIMIENTO: { $arrayElemAt: ["$mantenimiento", 0] },
+            TIEMPO_RESOLUCION: 1,
+            MANTENIMIENTO: 1, // Incluimos el arreglo de mantenimiento
             INCIDENCIAS: 1
         }
     },
     {
-        $out: {db:"entregable", coll: "entregable-agregado"} 
+        $out: { db: "entregable", coll: "juegos-agregado" }
     }
-])
+]);
+
+
+
