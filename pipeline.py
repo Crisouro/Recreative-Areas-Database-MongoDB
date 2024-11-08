@@ -76,6 +76,7 @@ if __name__ == "__main__":
     juegosClean.save(all_df["juegos"])
 
     # 4.G. Usuarios
+    all_df["area"] = pd.read_csv(os.path.join("cleaned", "AreasLimpio.csv"), sep=',')
     all_df["usuarios"] = usuariosClean.cleaning(all_df["usuarios"], results["usuarios"], parser, all_df)
     usuariosClean.save(all_df["usuarios"])
 

@@ -98,10 +98,8 @@ def fix_accent_street_name(data, column= "NOM_VIA"):
 
 def accesible_bool (juegos):
     #print(juegos['ACCESIBLE'].unique())
-    juegos['ACCESIBLE'] = juegos['ACCESIBLE'].map({
-        'si': True,
-        'no': False,
-    })
+    juegos['ACCESIBLE'] = juegos['ACCESIBLE'].apply(lambda x: True if x == 'si' else False)
+
 
 def spacial_coordenates_area(df_data: dict):
    """This function transforms the latitude and longitude into a single column"""
