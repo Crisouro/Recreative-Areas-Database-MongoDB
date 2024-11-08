@@ -24,6 +24,7 @@ def new_attributes(juegos):
     new.desgasteAcumulado(juegos, mantenimientos_aux)
     new.ultimaFechaMantenimiento(juegos, mantenimientos_aux)
 
+
 def final_formatting(juegos):
     fr.spacial_coordenates_juego(juegos)
     fr.accesible_bool(juegos)
