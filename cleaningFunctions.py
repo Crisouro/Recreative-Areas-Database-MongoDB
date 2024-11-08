@@ -14,7 +14,6 @@ def clean_null(id_column:str, df_data, null_columns: list, parser: dict, full_df
         print(column, "detectado...")
         #if column == "NUM_VIA":
         df_data[column] = str.null_assign(column, id_column, df_data, parser["search_values"][column], parser["data_values"][column], full_df)
-    return df_data
 
     
 def clean_duplicates(dataset, df, unique: dict, parser: dict):

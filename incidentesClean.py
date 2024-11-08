@@ -7,6 +7,20 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
+def formatting(incidentes):
+    fr.general_format(incidentes)
+    fr.date_typo_format(incidentes, "FECHA_REPORTE")
+
+def cleaning(incidentes, results, parser, all_df):
+    cf.clean_duplicates("incidentes", incidentes, results["unique_id"], parser[3]["unique_id"])
+    cf.clean_null("ID", incidentes, results['n_columns'], parser[3]['null_values'], all_df)
+    incidentes["ID"] = incidentes["ID"].astype(str)
+    incidentes["AreaRecreativaID"] = incidentes["AreaRecreativaID"].astype(str)
+
+def save(incidentes):
+    incidentes.to_csv(os.path.join("cleaned", "IncidentesLimpio.csv"), header=True, sep=',', index=False)
+
+
 if __name__ == "__main__":
 
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
@@ -34,7 +48,7 @@ if __name__ == "__main__":
     #CLEANING
     cf.clean_duplicates("incidentes", incidentes, results["unique_id"], parser[3]["unique_id"])
     print("\n[incidentes][CLEAN_NULLS]")
-    incidentes = cf.clean_null("ID", incidentes, results['n_columns'], parser[3]['null_values'], all_df)
+    cf.clean_null("ID", incidentes, results['n_columns'], parser[3]['null_values'], all_df)
     
     incidentes["ID"] = incidentes["ID"].astype(str)
     incidentes["AreaRecreativaID"] = incidentes["AreaRecreativaID"].astype(str)

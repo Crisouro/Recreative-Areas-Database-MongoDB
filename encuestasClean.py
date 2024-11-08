@@ -7,6 +7,19 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
+def formatting(encuestas):
+    fr.general_format(encuestas)
+    fr.date_typo_format(encuestas, "FECHA")
+
+
+def cleaning(encuestas, results, parser, all_df):
+    cf.clean_duplicates("encuestas", encuestas, results["unique_id"], parser[1]["unique_id"])
+    cf.clean_null("ID", encuestas, results['n_columns'], parser[1]['null_values'], all_df)
+
+
+def save(encuestas):
+    encuestas.to_csv(os.path.join("cleaned", "EncuestasLimpio.csv"), header=True, sep=',', index=False)
+
 if __name__ == "__main__":
 
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
@@ -35,7 +48,7 @@ if __name__ == "__main__":
     cf.clean_duplicates("encuestas", encuestas, results["unique_id"], parser[1]["unique_id"])
     
     print("\n[encuestas][CLEAN_NULLS]")
-    encuestas = cf.clean_null("ID", encuestas, results['n_columns'], parser[1]['null_values'], all_df)
+    cf.clean_null("ID", encuestas, results['n_columns'], parser[1]['null_values'], all_df)
     
     #SAVE
     encuestas.to_csv(os.path.join("cleaned", "EncuestasLimpio.csv"), header=True, sep=',', index=False)

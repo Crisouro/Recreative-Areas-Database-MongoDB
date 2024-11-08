@@ -2,6 +2,9 @@ import pandas as pd
 from datetime import datetime
 import os
 
+
+
+
 def codPostal(meteo, cp):
     """Function that associates COD_POSTAL with each PUNTO_MUESTREO in meteo24.csv"""
     
@@ -104,12 +107,11 @@ def null_values(row):
 
     return row
 
-if __name__ == "__main__":
-
-    #CLEANING ORIGINAL METEO
+def clean_meteo():
+    # CLEANING ORIGINAL METEO
     meteo = pd.read_csv(os.path.join("files", "meteo24.csv"), sep=';')
 
-    meteo["MONTHLY_DATE"] = meteo.apply(mongodb_date, axis = 1)
+    meteo["MONTHLY_DATE"] = meteo.apply(mongodb_date, axis=1)
     cp = pd.read_csv(os.path.join("files", "estaciones_meteo_CodigoPostal.csv"), sep=';')
     codPostal(meteo, cp)
     temperature(meteo)
@@ -118,22 +120,24 @@ if __name__ == "__main__":
 
     meteo.to_csv(os.path.join("cleaned", "MeteoLimpio.csv"), header=True, sep=';', index=False)
 
-    #GENERATING NEW METEO
+    # GENERATING NEW METEO
     df = pd.DataFrame()
 
-    #BASIC FIELDS + TEMPERATURE
+    # BASIC FIELDS + TEMPERATURE
     df["FECHA"] = meteo["MONTHLY_DATE"].unique()
 
-    meteo_filtered = meteo.loc[meteo["MAGNITUD"] == 83, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_TEMP"]]
+    meteo_filtered = meteo.loc[
+        meteo["MAGNITUD"] == 83, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_TEMP"]]
     print(meteo_filtered.shape[0])
     meteo_filtered.rename(columns={'MONTHLY_DATE': 'FECHA'}, inplace=True)
     meteo_filtered.rename(columns={'MONTHLY_TEMP': 'TEMPERATURA'}, inplace=True)
 
     df = pd.merge(df, meteo_filtered, on=["FECHA"], how="left")
 
-    #WIND
+    # WIND
 
-    meteo_filtered = meteo.loc[meteo["MAGNITUD"] == 81, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_STRONG_WIND"]]
+    meteo_filtered = meteo.loc[
+        meteo["MAGNITUD"] == 81, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_STRONG_WIND"]]
     print(meteo_filtered.shape[0])
     meteo_filtered.rename(columns={'MONTHLY_DATE': 'FECHA', 'MONTHLY_STRONG_WIND': 'VIENTO_FUERTE'}, inplace=True)
 
@@ -141,34 +145,43 @@ if __name__ == "__main__":
     df = pd.merge(df, meteo_filtered, on=["FECHA", "PROVINCIA", "MUNICIPIO", "ESTACION"], how="left")
 
     df['KEY'] = df[['FECHA', 'PROVINCIA', 'MUNICIPIO', 'ESTACION']].astype(str).agg('-'.join, axis=1)
-    meteo_filtered['KEY'] = meteo_filtered[['FECHA', 'PROVINCIA', 'MUNICIPIO', 'ESTACION']].astype(str).agg('-'.join, axis=1)
+    meteo_filtered['KEY'] = meteo_filtered[['FECHA', 'PROVINCIA', 'MUNICIPIO', 'ESTACION']].astype(str).agg('-'.join,
+                                                                                                            axis=1)
 
     df_no_match = meteo_filtered[~meteo_filtered['KEY'].isin(df['KEY'])]
 
     df_no_match = df_no_match.drop(columns=['KEY'])
     df = df.drop(columns=['KEY'])
 
-
-    meteo_filtered = meteo.loc[meteo.index.isin(df_no_match.index), ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_TEMP", "MONTHLY_STRONG_WIND"]]
-    meteo_filtered.rename(columns={'MONTHLY_DATE': 'FECHA', 'MONTHLY_TEMP': 'TEMPERATURA', 'MONTHLY_STRONG_WIND': 'VIENTO_FUERTE'}, inplace=True)
+    meteo_filtered = meteo.loc[
+        meteo.index.isin(df_no_match.index), ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_TEMP",
+                                              "MONTHLY_STRONG_WIND"]]
+    meteo_filtered.rename(
+        columns={'MONTHLY_DATE': 'FECHA', 'MONTHLY_TEMP': 'TEMPERATURA', 'MONTHLY_STRONG_WIND': 'VIENTO_FUERTE'},
+        inplace=True)
     df = pd.concat([df, meteo_filtered])
 
-    #PRECIPITATIONS
-    meteo_filtered = meteo.loc[meteo["MAGNITUD"] == 89, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_PREC"]]
+    # PRECIPITATIONS
+    meteo_filtered = meteo.loc[
+        meteo["MAGNITUD"] == 89, ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "MONTHLY_PREC"]]
     meteo_filtered.rename(columns={'MONTHLY_DATE': 'FECHA'}, inplace=True)
     meteo_filtered.rename(columns={'MONTHLY_PREC': 'PRECIPITACION'}, inplace=True)
-    
+
     df = pd.merge(df, meteo_filtered, on=["FECHA", "PROVINCIA", "MUNICIPIO", "ESTACION"], how="left")
 
-    #COD_POSTAL
-    meteo_filtered = meteo.loc[(meteo["MAGNITUD"] == 83) | meteo.index.isin(df_no_match.index), ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO", "ESTACION", "COD_POSTAL"]]
+    # COD_POSTAL
+    meteo_filtered = meteo.loc[
+        (meteo["MAGNITUD"] == 83) | meteo.index.isin(df_no_match.index), ["MONTHLY_DATE", "PROVINCIA", "MUNICIPIO",
+                                                                          "ESTACION", "COD_POSTAL"]]
     meteo_filtered.rename(columns={'MONTHLY_DATE': 'FECHA'}, inplace=True)
 
-    
     df = pd.merge(df, meteo_filtered, on=["FECHA", "PROVINCIA", "MUNICIPIO", "ESTACION"], how="left")
 
-    #FILLING NULL VALUES:
+    # FILLING NULL VALUES:
     df['ID'] = df[['FECHA', 'PROVINCIA', 'MUNICIPIO', 'ESTACION']].astype(str).agg('_'.join, axis=1)
     df = df.apply(null_values, axis=1)
-    
-    df.to_csv(os.path.join("cleaned", "Meteo.csv"), header=True, sep=';', index=False) #SAVE NEW FILE
+
+    df.to_csv(os.path.join("cleaned", "Meteo.csv"), header=True, sep=';', index=False)  # SAVE NEW FILE
+
+if __name__ == "__main__":
+    clean_meteo()

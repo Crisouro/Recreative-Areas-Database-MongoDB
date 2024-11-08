@@ -5,7 +5,27 @@ import pandas as pd
 import formatting as fr
 from generalAnalysis import general_analysis
 import cleaningFunctions as cf
-import newAttr as new
+
+
+def formatting(area):
+    fr.general_format(area)
+    fr.date_typo_format(area, "FECHA_INSTALACION")
+    fr.fix_accent_street_name(area)
+    fr.fix_accent_street_name(area, "DIRECCION_AUX")
+
+
+def cleaning(area, results, parser, all_df):
+    cf.clean_duplicates("area", area, results["unique_id"], parser[0]["unique_id"])
+    cf.clean_null("ID", area, results['n_columns'], parser[0]['null_values'], all_df)
+
+
+def final_formatting(area):
+    fr.spacial_coordenates_area(area)
+
+
+def save(area):
+    area.to_csv(os.path.join("cleaned", "AreasLimpio.csv"), header=True, sep=',', index=False)
+
 
 if __name__ == "__main__":
 
@@ -37,7 +57,7 @@ if __name__ == "__main__":
     cf.clean_duplicates("area", area, results["unique_id"], parser[0]["unique_id"])
     
     print("\n[area][CLEAN_NULLS]")
-    area = cf.clean_null("ID", area, results['n_columns'], parser[0]['null_values'], all_df)
+    cf.clean_null("ID", area, results['n_columns'], parser[0]['null_values'], all_df)
 
     #FINAL FORMATTING
     fr.spacial_coordenates_area(area)

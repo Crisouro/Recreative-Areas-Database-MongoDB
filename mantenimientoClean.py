@@ -7,6 +7,20 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
+def formatting(mantenimiento):
+    fr.general_format(mantenimiento)
+    fr.date_typo_format(mantenimiento, "FECHA_INTERVENCION")
+    mantenimiento["ID"] = fr.format_mantenimiento_ID(mantenimiento["ID"])
+    mantenimiento["ID"] = mantenimiento["ID"].apply(lambda x: x.strip())
+
+def cleaning(mantenimiento, results, parser, all_df):
+    cf.clean_duplicates("incidencias", mantenimiento, results["unique_id"], parser[4]["unique_id"])
+    cf.clean_null("ID", mantenimiento, results['n_columns'], parser[4]['null_values'], all_df)
+
+def save(mantenimiento):
+    mantenimiento.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
+
+
 if __name__ == "__main__":
 
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
@@ -36,7 +50,7 @@ if __name__ == "__main__":
     #CLEANING
     cf.clean_duplicates("incidencias", mantenimiento, results["unique_id"], parser[4]["unique_id"])
     print("\n[incidencias][CLEAN_NULLS]")
-    mantenimiento = cf.clean_null("ID", mantenimiento, results['n_columns'], parser[4]['null_values'], all_df)
+    cf.clean_null("ID", mantenimiento, results['n_columns'], parser[4]['null_values'], all_df)
 
     #SAVE
     mantenimiento.to_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), header=True, sep=',', index=False)
