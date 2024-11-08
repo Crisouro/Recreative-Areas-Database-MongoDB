@@ -47,7 +47,7 @@ def ultimaFechaMantenimiento(juegos, mantenimientos):
     for i in range(len(juegos)):
         dates = mantenimientos.loc[mantenimientos["JuegoID"] == juegos.at[i, "ID"], "FECHA_INTERVENCION"]
         if not dates.empty:
-            juegos.at[i, "DESGASTE_ACUMULADO"] = max(dates)
+            juegos.at[i, "ULTIMA_FECHA_MANTENIMIENTO"] = max(dates)
         else:
-            juegos.at[i, "DESGASTE_ACUMULADO"] = str(juegos.at[i, "ID"]) + "-SIN-MANTENIMIENTOS-conocidos"
+            juegos.at[i, "ULTIMA_FECHA_MANTENIMIENTO"] = str(juegos.at[i, "ID"]) + "-SIN-MANTENIMIENTOS-conocidos"
 

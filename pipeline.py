@@ -51,10 +51,13 @@ if __name__ == "__main__":
     areaClean.cleaning(all_df["area"], results["area"], parser, all_df)
     areaClean.save(all_df["area"])
 
+    # 4.B. In
+
     meteoClean.clean_meteo()
 
 
     #OJO: CLEANING USUARIS RETORNA DATASET DE LIMPIEZA.
+    #AÑADIR AREA_NEWATT
 
     #5: FINAL ADJUSTMENTS
     areaClean.final_formatting(all_df["area"])
