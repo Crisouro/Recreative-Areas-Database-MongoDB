@@ -7,6 +7,27 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
+def formatting(incidencias):
+    fr.general_format(incidencias)
+    fr.date_typo_format(incidencias, "FECHA_REPORTE")
+    incidencias.rename(columns={'MANTENIMIENTO_ID': 'MANTENIMIENTO_ID'}, inplace=True)
+
+
+def cleaning(incidencias, results, parser, all_df):
+    cf.clean_duplicates("incidencias", incidencias, results["unique_id"], parser[2]["unique_id"])
+    cf.clean_null("ID", incidencias, results['n_columns'], parser[2]['null_values'], all_df)
+
+
+def new_attributes(incidencias):
+    new.nivelEscalamiento(incidencias)
+    mantenimientos_aux = pd.read_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), sep=',')
+    new.tiempoResolucion(incidencias, mantenimientos_aux)
+
+def save(incidencias):
+    incidencias.to_csv(os.path.join("cleaned", "IncidenciasLimpio.csv"), header=True, sep=',', index=False)
+
+
+
 if __name__ == "__main__":
 
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
@@ -35,7 +56,7 @@ if __name__ == "__main__":
     #CLEANING
     cf.clean_duplicates("incidencias", incidencias, results["unique_id"], parser[2]["unique_id"])
     print("\n[incidencias][CLEAN_NULLS]")
-    incidencias = cf.clean_null("ID", incidencias, results['n_columns'], parser[2]['null_values'], all_df)
+    cf.clean_null("ID", incidencias, results['n_columns'], parser[2]['null_values'], all_df)
     
     #NEW ATTRIBUTES
     new.nivelEscalamiento(incidencias)

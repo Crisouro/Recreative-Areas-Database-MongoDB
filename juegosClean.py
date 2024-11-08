@@ -42,7 +42,7 @@ if __name__ == "__main__":
     cf.clean_duplicates("juegos", juegos, results["unique_id"], parser[6]["unique_id"])
     
     print("\n[juegos][CLEAN_NULLS]")
-    #juegos = cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], clean_df) #HACER QUE FUNCIONE
+    cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], clean_df) #HACER QUE FUNCIONE
     
     #NEW ATTR
     new.indicadorExposicion(juegos)
