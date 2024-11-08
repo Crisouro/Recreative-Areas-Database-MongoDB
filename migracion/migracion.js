@@ -137,7 +137,6 @@ db.incidencias.aggregate([
     },
     {
         $project: {
-            ID: 1,
             TIPO_INCIDENCIA: 1, 
             FECHA_REPORTE: 1,
             estado: 1,
@@ -211,7 +210,6 @@ db.Juegos.aggregate([
     },
     {
         $project: {
-            ID: 1,
             NOMBRE: "$DESC_CLASIFICACION",
             MODELO: 1,
             ESTADO_OPERATIVO: "$ESTADO",
