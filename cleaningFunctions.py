@@ -12,7 +12,7 @@ def clean_null(id_column:str, df_data, null_columns: list, parser: dict, full_df
         #str.assign_aux_dir(df_data)
     for column in null_columns:
         print(column, "detectado...")
-        #if column == "NUM_VIA":
+        #if column == "DIRECCION_AUX":
         df_data[column] = str.null_assign(column, id_column, df_data, parser["search_values"][column], parser["data_values"][column], full_df)
 
     
