@@ -7,6 +7,30 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
+def formatting(juegos):
+    fr.general_format(juegos)
+    fr.date_typo_format(juegos, "FECHA_INSTALACION")
+    fr.accesible_bool(juegos)
+    fr.fix_accent_street_name(juegos)
+
+
+def cleaning(juegos, results, parser, all_df):
+    cf.clean_duplicates("juegos", juegos, results["unique_id"], parser[6]["unique_id"])
+    cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], all_df)
+
+def new_attributes(juegos):
+    new.indicadorExposicion(juegos)
+    mantenimientos_aux = pd.read_csv(os.path.join("cleaned", "MantenimientoLimpio.csv"), sep=',')
+    new.desgasteAcumulado(juegos, mantenimientos_aux)
+    new.ultimaFechaMantenimiento(juegos, mantenimientos_aux)
+
+def final_formatting(juegos):
+    fr.spacial_coordenates_juego(juegos)
+
+def save(juegos):
+    juegos.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)
+
+
 if __name__ == "__main__":
 
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
@@ -32,7 +56,6 @@ if __name__ == "__main__":
     #FORMATTING
     fr.general_format(juegos)
     fr.date_typo_format(juegos, "FECHA_INSTALACION")
-
     fr.fix_accent_street_name(juegos)
 
     #GENERAL ANALYSIS
@@ -42,7 +65,7 @@ if __name__ == "__main__":
     cf.clean_duplicates("juegos", juegos, results["unique_id"], parser[6]["unique_id"])
     
     print("\n[juegos][CLEAN_NULLS]")
-    cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], clean_df) #HACER QUE FUNCIONE
+    cf.clean_null("ID", juegos, results['n_columns'], parser[6]['null_values'], clean_df)
     
     #NEW ATTR
     new.indicadorExposicion(juegos)
@@ -52,6 +75,7 @@ if __name__ == "__main__":
 
     #FINAL FORMATTING
     fr.spacial_coordenates_juego(juegos)
+    fr.accesible_bool(juegos)
 
     #SAVE
     juegos.to_csv(os.path.join("cleaned", "JuegosLimpio.csv"), header=True, sep=',', index=False)

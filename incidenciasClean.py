@@ -10,7 +10,7 @@ import newAttr as new
 def formatting(incidencias):
     fr.general_format(incidencias)
     fr.date_typo_format(incidencias, "FECHA_REPORTE")
-    incidencias.rename(columns={'MANTENIMIENTO_ID': 'MANTENIMIENTO_ID'}, inplace=True)
+    incidencias.rename(columns={'MantenimeintoID': 'MANTENIMIENTO_ID'}, inplace=True)
 
 
 def cleaning(incidencias, results, parser, all_df):

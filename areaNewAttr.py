@@ -7,7 +7,7 @@ from generalAnalysis import general_analysis
 import cleaningFunctions as cf
 import newAttr as new
 
-area = pd.read_csv(os.path.join("cleaned", "AreasLimpio.csv"), sep=',')
+area = pd.read_csv("cleaned/AreasLimpio.csv", sep=',')
 
 copy_area = area.copy()
 copy_area["NDP"] = pd.to_numeric(area["NDP"], errors='coerce')
@@ -59,11 +59,10 @@ def new_attr(row):
 
     #Known NDP
     filtered_juegos = juegos[juegos["NDP"] == row["NDP"]]
-    
+
     #Unique NDP?
     if (len(copy_area[copy_area["NDP"] == row["NDP"]]) != 1): #NO
-        #print(row["DIRECCION_AUX"])
-        if ("desconocido" in row["DIRECCION_AUX"]):
+        if ("desconocido" in row["DIRECCION_AUX"]) and not filtered_juegos.empty:
             filtered_juegos["NEW_DIR"] = filtered_juegos[['TIPO_VIA', 'NOM_VIA', 'NUM_VIA', 'COD_POSTAL']].astype(str).agg('_'.join, axis=1)
             new_dir = row['TIPO_VIA'] + "_" + row['NOM_VIA'] + "_" + str(row['NUM_VIA']) + "_" + str(row['COD_POSTAL'])
             aux_filter = filtered_juegos[filtered_juegos["NEW_DIR"] == new_dir]
@@ -104,9 +103,12 @@ def new_attr(row):
     row["ESTADO_GLOBAL"] = estadoGlobalArea(row, filtered_juegos)
     
     return row
+def new_attributes_area():
+    global juegos
+    global incidentes
+    global area
+    global copy_area
 
-if __name__ == "__main__":
-    
     for col in ["CAPACIDAD_MAX", "CANTIDAD_JUEGOS_TIPO", "ESTADO_GLOBAL"]:
         if col not in area.columns:
             copy_area[col] = None
@@ -121,3 +123,7 @@ if __name__ == "__main__":
 
     #SAVE
     area.to_csv(os.path.join("cleaned", "Areas.csv"), header=True, sep=',', index=False)
+
+if __name__ == "__main__":
+    new_attributes_area()
+    

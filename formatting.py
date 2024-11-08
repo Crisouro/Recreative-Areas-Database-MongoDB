@@ -96,6 +96,13 @@ def fix_accent_street_name(data, column= "NOM_VIA"):
         if type(dir) == str and "'" in dir:
             data.at[i, column] = dir.replace("'", "")
 
+def accesible_bool (juegos):
+    #print(juegos['ACCESIBLE'].unique())
+    juegos['ACCESIBLE'] = juegos['ACCESIBLE'].map({
+        'si': True,
+        'no': False,
+    })
+
 def spacial_coordenates_area(df_data: dict):
    """This function transforms the latitude and longitude into a single column"""
    #Unpacking needed data
