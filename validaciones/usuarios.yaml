@@ -4,7 +4,7 @@ db.usuarios.createIndex({NIF: 1}, {unique: 1})
 VAL = {
     bsonType: "object",
     description: "Documento que describe a los usuarios",
-    required: ["ID", "NOMBRE", "EMAIL", "TELEFONO"],
+    required: ["NIF", "NOMBRE", "EMAIL", "TELEFONO"],
     properties: {
         NIF: {
             bsonType: "string",
@@ -23,12 +23,8 @@ VAL = {
             }
         },
         TELEFONO: {
-            bsonType: "array", 
-            description: "El TELEFONO debe ser un array de string",
-            items: {
-                bsonType: "string",
-                description: "Cada elemento debe ser string"
-            }
+            bsonType: "string", 
+            description: "El TELEFONO debe ser un string",
         }
     }
 }
