@@ -36,7 +36,6 @@ def assign_aux_dir(data): #ARREGLAR
     tipos_via_pattern = "|".join(tipo_via)
 
     pattern = rf'(?:(?P<TIPO_VIA>{tipos_via_pattern})\s*(?P<NOM_VIA>.*?)),?\s*(?P<NUM_VIA>\d{{1,5}})?'
-    #pattern = rf'(?P<TIPO_VIA>{tipos_via_pattern}[\w\s\-\.]*)[, ]*(?P<NOM_VIA>[\w\s\-\.]+)[, ]*(?P<NUM_VIA>\d{1,5}[A-Z]*)'
     pattern_per_row = data['DIRECCION_AUX'].str.extract(pattern)
     #print(pattern_per_row)
 

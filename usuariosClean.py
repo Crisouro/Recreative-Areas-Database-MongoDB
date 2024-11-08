@@ -13,9 +13,6 @@ def formatting(usuarios):
     usuarios["EMAIL"] = usuarios["EMAIL"].apply(fr.remove_dup_prefix)
     usuarios.drop_duplicates(subset=["NIF", "EMAIL", "TELEFONO"])
 
-def cleaning(usuarios, results, parser, all_df):
-    cf.clean_null("NIF", usuarios, results['n_columns'], parser[5]['null_values'], all_df)
-    return unique_nif(usuarios)
 
 def unique_nif(usuarios):
     new_usuarios = pd.DataFrame()
@@ -38,6 +35,12 @@ def unique_nif(usuarios):
 
         new_usuarios = pd.concat([new_usuarios, row.to_frame().T], ignore_index=True)
         return new_usuarios
+
+
+def cleaning(usuarios, results, parser, all_df):
+    cf.clean_null("NIF", usuarios, results['n_columns'], parser[5]['null_values'], all_df)
+    return unique_nif(usuarios)
+
 
 def save(usuarios):
     usuarios.to_csv(os.path.join("cleaned", "UsuariosLimpio.csv"), header=True, sep=',', index=False)

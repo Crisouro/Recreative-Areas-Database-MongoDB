@@ -11,8 +11,6 @@ import usuariosClean
 import meteoClean
 import areaNewAttr
 from generalAnalysis import general_analysis
-import cleaningFunctions as cf
-import formatting as fr
 
 
 import areaClean
@@ -77,15 +75,18 @@ if __name__ == "__main__":
     juegosClean.new_attributes(all_df["juegos"])
     juegosClean.save(all_df["juegos"])
 
-    # 4. . Meteo: full format, cleaning and saving
+    # 4.G. Usuarios
+    all_df["usuarios"] = usuariosClean.cleaning(all_df["usuarios"], results["usuarios"], parser, all_df)
+    usuariosClean.save(all_df["usuarios"])
+
+    # 4.H. Meteo: full format, cleaning and saving
     meteoClean.clean_meteo()
 
 
-    #OJO: CLEANING USUARIS RETORNA DATASET DE LIMPIEZA.
-    #AÑADIR AREA_NEWATT
-    areaNewAttr.new_attributes_area()
 
     #5: FINAL ADJUSTMENTS
+    areaNewAttr.new_attributes_area()
+
     areaClean.final_formatting(all_df["area"])
     areaClean.save(all_df["area"])
     juegosClean.final_formatting(all_df["juegos"])
