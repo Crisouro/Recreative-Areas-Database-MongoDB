@@ -5,7 +5,7 @@ db.meteo.createIndex({ID: 1}, {unique: 1})
 VAL = {
     bsonType: "object",
     description: "Documento que describe la meteorología",
-    required: ["ID", "FECHA", "TEMPERATURA", "PRECIPITACION", "VIENTO_FUERTE"],
+    required: ["ID", "PROVINCIA", "MUNICIPIO", "ESTACION", "COD_POSTAL", "FECHA", "TEMPERATURA", "PRECIPITACION", "VIENTO_FUERTE"],
     properties: {
         ID: {
             bsonType: "string",

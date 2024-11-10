@@ -4,7 +4,7 @@ db.incidentes.createIndex({ID:1}, {unique: 1})
 VAL = {
     bsonType: "object",
     description: "Documento que describe a los incidentes",
-    required: ["ID", "FECHA_REPORTE", "TIPO_INCIDENTE", "GRAVEDAD"],
+    required: ["ID", "FECHA_REPORTE", "TIPO_INCIDENTE", "GRAVEDAD", "AreaRecreativaID"],
     properties: {
         ID: {
             bsonType: "string",
