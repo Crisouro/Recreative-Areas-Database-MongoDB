@@ -1,5 +1,5 @@
 ID,FECHA_REPORTE,TIPO_INCIDENTE,GRAVEDAD,AreaRecreativaID
-1,2024-06-13T00:00:00.000000Z,robo,alta,17538
+fichero csv con los datos asociados a cada area,2024-06-13T00:00:00.000000Z,robo,alta,17538
 2,2024-07-16T00:00:00.000000Z,caida,baja,16724
 3,2021-03-09T00:00:00.000000Z,caida,critica,18191
 4,2023-10-15T00:00:00.000000Z,accidente,media,52162
