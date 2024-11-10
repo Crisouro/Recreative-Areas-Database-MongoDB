@@ -12,12 +12,11 @@ import meteoClean
 import areaNewAttr
 from generalAnalysis import general_analysis
 
-
 import areaClean
 import encuestasClean
 
 if __name__ == "__main__":
-
+    #Final cleaning pipeline
     # 1: Loading dirty datasets
     with open(os.path.join("cleaning_param", "parser.json"), 'r', encoding="utf-8") as js:
         parser = json.load(js)
