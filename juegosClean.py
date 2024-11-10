@@ -12,7 +12,8 @@ def formatting(juegos):
     fr.date_typo_format(juegos, "FECHA_INSTALACION")
     fr.accesible_bool(juegos)
     fr.fix_accent_street_name(juegos)
-    fr.fix_accent_street_name(juegos,"DIRECCION_AUX" )
+    print("fixing juegos accent")
+    fr.fix_accent_street_name(juegos, "DIRECCION_AUX")
 
 
 def cleaning(juegos, results, parser, all_df):

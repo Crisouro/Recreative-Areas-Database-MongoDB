@@ -92,9 +92,9 @@ def format_mantenimiento_ID(id_column) -> dict:
 def fix_accent_street_name(data, column= "NOM_VIA"):
     for i in range(len(data)):
         dir = data.iloc[i][column]
-
         if type(dir) == str and "'" in dir:
             data.at[i, column] = dir.replace("'", "")
+
 
 def accesible_bool (juegos):
     #print(juegos['ACCESIBLE'].unique())

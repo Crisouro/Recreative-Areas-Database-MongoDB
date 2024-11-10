@@ -37,6 +37,8 @@ if __name__ == "__main__":
     incidentesClean.formatting(all_df["incidentes"])
     mantenimientoClean.formatting(all_df["mantenimientos"])
     usuariosClean.formatting(all_df["usuarios"])
+    juegosClean.formatting(all_df["juegos"])
+
 
     # 3: GENERAL ANALYSIS
     results = {"area": general_analysis(all_df["area"], ["ID"]),
@@ -71,22 +73,17 @@ if __name__ == "__main__":
 
 
     # 4.F. Juegos
-    all_df["area"] = pd.read_csv(os.path.join("cleaned", "AreasLimpio.csv"), sep=',')
-
     juegosClean.cleaning(all_df["juegos"], results["juegos"], parser, all_df)
     juegosClean.new_attributes(all_df["juegos"])
     juegosClean.save(all_df["juegos"])
 
     # 4.G. Usuarios
-    clean_df = all_df.copy()
-    clean_df["area"] = pd.read_csv(os.path.join("cleaned", "AreasLimpio.csv"), sep=',')
 
-    usuariosClean.cleaning(all_df["usuarios"], results["usuarios"], parser, clean_df)
+    usuariosClean.cleaning(all_df["usuarios"], results["usuarios"], parser, all_df)
     usuariosClean.save(all_df["usuarios"])
 
     # 4.H. Meteo: full format, cleaning and saving
     meteoClean.clean_meteo()
-
 
 
     #5: FINAL ADJUSTMENTS

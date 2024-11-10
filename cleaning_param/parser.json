@@ -86,7 +86,7 @@
             "NOM_VIA": {"juegos": ["DIRECCION_AUX"], "area": ["DIRECCION_AUX", "NDP"]},
             "NUM_VIA": {"juegos": ["NOM_VIA", "DIRECCION_AUX"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
             "COD_POSTAL": {"juegos": ["NOM_VIA", "DIRECCION_AUX", "NDP"], "area": ["NOM_VIA", "DIRECCION_AUX", "NDP"]},
-            "DIRECCION_AUX": {"juegos": ["NOM_VIA"], "area": ["NOM_VIA", "NDP"]},
+            "DIRECCION_AUX": {"juegos": ["NOM_VIA", "NDP"], "area": ["NDP"]},
              "NDP": { "juegos": ["NOM_VIA", "DIRECCION_AUX"],  "area": ["NOM_VIA", "DIRECCION_AUX", "COD_POSTAL"]},
              "FECHA_INSTALACION":{"juegos": ["NDP"], "area": ["NDP"]},
              "CODIGO_INTERNO": {"area": ["NDP"]},
