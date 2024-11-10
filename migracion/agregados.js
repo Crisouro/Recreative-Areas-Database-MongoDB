@@ -104,7 +104,7 @@ db.area.aggregate([
         }
     },
     {
-        $out: {db:"entregable", coll: "area-agregado"} //Change DB
+        $out: {db:"entregable", coll: "area-agregado"} 
     }
 ])
 
