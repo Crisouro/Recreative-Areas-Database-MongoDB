@@ -99,6 +99,5 @@ VAL = {
       }
     }
   }
-}
 
 db.runCommand({ "collMod": "incidencias", "validator": { $jsonSchema: VAL } })
