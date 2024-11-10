@@ -26,7 +26,7 @@ db.area.aggregate([
     },
     {
         $lookup: {
-            from: "EncuestasSatisfaccion",
+            from: "encuestas",
             localField: "ID",
             foreignField: "AreaRecreativaID",
             as: "ref_encuestas"
@@ -66,7 +66,7 @@ db.area.aggregate([
             },
             ENCUESTAS: {
                 $map: {
-                    input: "$encuestas",
+                    input: "$ref_encuestas",
                     as: "encuesta",
                     in: {
                         _id: "$$encuesta._id"
@@ -164,22 +164,21 @@ db.juegos.aggregate([
     {
         $lookup: {
             from: "incidencias",
-            localField: "ref_mantenimiento.ID", // Corregido el campo de referencia
+            localField: "ref_mantenimiento.ID", 
             foreignField: "MANTENIMIENTO_ID",
             as: "ref_incidencias"
         }
     },
     {
         $addFields: {
-            // Si ref_mantenimiento tiene varios elementos, los mantenemos en un arreglo
             MANTENIMIENTO: {
                 $map: {
                     input: "$ref_mantenimiento", 
                     as: "mnt",
                     in: {
                         _id: "$$mnt._id",
-                        TIPO_MANTENIMIENTO: "$$mnt.TIPO_MANTENIMIENTO", // Aquí agregas los campos que necesites de la colección de mantenimiento
-                        FECHA_MANTENIMIENTO: "$$mnt.FECHA_MANTENIMIENTO"  // Añadir cualquier otro campo necesario
+                        TIPO_MANTENIMIENTO: "$$mnt.TIPO_MANTENIMIENTO", 
+                        FECHA_MANTENIMIENTO: "$$mnt.FECHA_MANTENIMIENTO"  
                     }
                 }
             },
@@ -216,7 +215,7 @@ db.juegos.aggregate([
             INDICADOR_EXPOSICION: 1,
             ULTIMA_FECHA_MANTENIMIENTO: "$ULTIMA_FECHA_MANTENIMIENTO",
             TIEMPO_RESOLUCION: 1,
-            MANTENIMIENTO: 1, // Incluimos el arreglo de mantenimiento
+            MANTENIMIENTO: 1, 
             INCIDENCIAS: 1
         }
     },
